@@ -9,7 +9,8 @@ import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        maxWidth: 250,
+        minWidth: 250,
+        margin: '1rem'
     },
     media: {
         height: 370,
@@ -27,7 +28,7 @@ const AppHeader = (props) => {
     const classes = useStyles();
   
     return (
-        <Card className={classes.root}>
+      <Card className={classes.root}>
         <CardActionArea>
           <CardMedia
             className={classes.media}

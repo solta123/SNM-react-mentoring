@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+.AppFooter {
+  background-color: #3f51b5;
+  color: white;
+  min-height: 48px;
+  justify-content: center;
+  display: flex;
+  flex-flow: column;
+}
+
+.MoviesList {
+  display: flex;
+}
