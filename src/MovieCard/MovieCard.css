@@ -1,0 +1,18 @@
+.MovieCardRoot {
+    min-width: 250px;
+    margin: 1rem;
+}
+
+.media {
+    height: 370px;
+}
+
+.details {
+    text-align: left;
+}
+
+.year {
+    padding: 5px;
+    width: 32px;
+    float: right;
+}
