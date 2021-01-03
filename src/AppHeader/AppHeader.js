@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import AddIcon from '@material-ui/icons/Add';
+import CloseIcon from '@material-ui/icons/Close';
 import { Modal, TextField } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -14,7 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 const AppHeader = () => {
   const [open, setOpen] = React.useState(false);
-  const [genre, setGenre] = React.useState('Documentary');
+  const [genre, setGenre] = React.useState([]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -23,10 +24,12 @@ const AppHeader = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  
+
   const handleGenreChange = (event) => {
     setGenre(event.target.value);
   };
+
+  const genres = ['Documentary', 'Comedy', 'Horror', 'Crime', 'Action', 'Adventure', 'Drama', 'Oscar winning movie', 'Musical'];
 
   return (
     <div className="root">
@@ -40,7 +43,10 @@ const AppHeader = () => {
           </Button>
           <Modal open={open} onClose={handleClose} className="AddMovieModal">
             <Paper className="ModalContainer">
-              <Typography variant="h5">Add Movie</Typography>
+              <div>
+                <CloseIcon onClick={handleClose} className="closeIcon" />
+                <Typography variant="h5">Add Movie</Typography>
+              </div>
               <form className="AddMovieForm">
                 <div>
                   <TextField label="Title" />
@@ -54,16 +60,15 @@ const AppHeader = () => {
                 <div>
                   <FormControl>
                     <InputLabel>Genre</InputLabel>
-                    <Select value={genre} onChange={handleGenreChange}>
-                      <MenuItem value="Documentary">Documentary</MenuItem>
-                      <MenuItem value="Comedy">Comedy</MenuItem>
-                      <MenuItem value="Horror">Horror</MenuItem>
-                      <MenuItem value="Crime">Crime</MenuItem>
+                    <Select value={genre} onChange={handleGenreChange} multiple>
+                      {genres.map(genreItem => (
+                        <MenuItem key={genreItem} value={genreItem}>{genreItem}</MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </div>
                 <div>
-                  <TextField label="Overview" multiline rowsMax={10} />
+                  <TextField label="Overview" multiline rows={3} rowsMax={10} />
                 </div>
                 <div>
                   <TextField label="Runtime" type="number" />
