@@ -4,12 +4,12 @@ import { Button, TextField } from '@material-ui/core';
 
 const Searchbar = () => {
     return (
-      <div>
-          <form className="form">
-              <TextField variant="outlined" label="Search for movies"></TextField>
-              <Button className="searchButton" color="primary" variant="contained">Search</Button>
-          </form>
-      </div>
+        <div>
+            <form className="form">
+                <TextField variant="outlined" label="Search for movies"></TextField>
+                <Button className="searchButton" color="primary" variant="contained">Search</Button>
+            </form>
+        </div>
     );
 }
 

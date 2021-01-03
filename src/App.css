@@ -50,3 +50,7 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+.container {
+  padding: 1rem
+}

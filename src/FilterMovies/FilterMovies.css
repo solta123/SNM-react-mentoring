@@ -1,7 +1,11 @@
 .FilterMoviesRoot {
-    flex-grow: 1,
+  flex-grow: 1;
 }
 
 .sortButton {
-    min-width: 150px;
+  min-width: 150px;
+}
+
+.FilterMoviesDivider {
+  margin: 0 0.7rem !important;
 }

@@ -6,26 +6,34 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import PropTypes from 'prop-types';
 
-const AppHeader = (props) => {
-    return (
-      <Card className="MovieCardRoot">
-        <CardActionArea>
-          <CardMedia className="media" image={props.img} title={props.title} />
-          <CardContent className="details">
-              <div>
-                <Typography gutterBottom variant="h5" component="h4">
-                    {props.title}
-                </Typography>
-                <Paper variant="outlined" className="year" color="textSecondary">{props.year}</Paper>
-              </div>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {props.genre}
+const MovieCard = (props) => {
+  return (
+    <Card className="MovieCardRoot">
+      <CardActionArea>
+        <CardMedia className="media" image={props.img} title={props.title} />
+        <CardContent className="details">
+          <div>
+            <Typography gutterBottom variant="h5" component="h4">
+              {props.title}
             </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    );
+            <Paper variant="outlined" className="year" color="textSecondary">{props.year}</Paper>
+          </div>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {props.genre}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+  );
 }
 
-export default AppHeader;
+MovieCard.propTypes = {
+  img: PropTypes.string,
+  title: PropTypes.string,
+  genre: PropTypes.string,
+  year: PropTypes.number
+}
+
+export default MovieCard;

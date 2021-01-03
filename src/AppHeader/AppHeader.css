@@ -1,8 +1,32 @@
 .root {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .title {
-    flex-grow: 1;
-    text-align: left;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.AddMovieModal {
+  max-width: 400px;
+  max-height: 800px;
+  padding-bottom: 2rem;
+  margin: auto;
+}
+
+.AddMovieForm > div {
+  margin: 0.5rem 2rem;
+}
+
+.AddMovieForm > div > div {
+  width: 100%;
+}
+
+.AddMovieFormButtons {
+  float: right;
+  margin-left: 0.3rem !important;
+}
+
+.ModalContainer {
+  padding: 1rem 1rem 3rem 1rem;
 }
