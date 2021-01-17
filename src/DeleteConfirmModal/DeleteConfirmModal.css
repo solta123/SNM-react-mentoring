@@ -1,0 +1,14 @@
+.ConfirmButton {
+    float: right;
+}
+
+.DeleteConfirmText {
+    padding: 0.5rem 0;
+}
+
+.DeleteConfirmCloseIcon {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    cursor: pointer;
+}

@@ -1,0 +1,23 @@
+.AddMovieForm > div {
+  margin: 0.5rem 2rem;
+}
+
+.AddMovieForm > div > div {
+  width: 100%;
+}
+
+.AddMovieFormButtons {
+  float: right;
+  margin-left: 0.3rem !important;
+}
+
+.ModalContainer {
+  padding: 1rem 1rem 3rem 1rem;
+}
+
+.closeIcon {
+  position: absolute;
+  right: 1rem;
+  top: 1.3rem;
+  cursor: pointer;
+}
