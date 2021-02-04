@@ -17,14 +17,7 @@ const MovieCard = (props) => {
   const [open, setOpen] = React.useState(false);
   const [deletion, setDeletion] = React.useState(false);
 
-  const movieDetail = {
-    img: props.img,
-    id: '123154',
-    title: props.title,
-    year: new Date(props.year),
-    genre: props.genre,
-    duration: 96
-  }
+  const movieDetail = props.movie;
 
   const handleOpen = () => {
     setOpen(true);
@@ -59,8 +52,9 @@ const MovieCard = (props) => {
 
   return (
     <div className="MovieCardDiv">
-      <div>
-        <IconButton className="MoreButton" onClick={handleClick}>
+      <div className="MoreButtonDiv">
+        <IconButton className="MoreButton" disableRipple
+          style={{backgroundColor: '#2d2d2d', color: 'white', border: '2px white solid'}} onClick={handleClick}>
           <MoreVertIcon />
         </IconButton>
         <Menu anchorEl={menu} keepMounted open={Boolean(menu)} onClose={handleCloseMenu}>
@@ -68,19 +62,19 @@ const MovieCard = (props) => {
           <MenuItem onClick={openDeletion}>Delete</MenuItem>
         </Menu>
       </div>
-      <Card className="MovieCardRoot">
-        <CardActionArea>
-          <CardMedia className="media" image={props.img} title={props.title} />
+      <Card className="MovieCardRoot" onClick={props.handleClick} onTouchStart={false}>
+        <CardActionArea disableRipple>
+          <CardMedia className="media" image={movieDetail.img} title={movieDetail.title} />
           <CardContent className="details">
             <div>
               <Typography gutterBottom variant="h5" component="h4">
-                {props.title}
+                {movieDetail.title}
               </Typography>
               <Paper variant="outlined" className="year" color="textSecondary">{movieDetail.year.getFullYear()}</Paper>
             </div>
             <Typography variant="body2" color="textSecondary" component="p">
-              {props.genre.map((genre, i) => {
-                if (i >= props.genre.length - 1) {
+              {movieDetail.genre.map((genre, i) => {
+                if (i >= movieDetail.genre.length - 1) {
                   return <span key={genre}>{genre}</span>
                 }
                 return <span key={genre}>{genre}, </span>
