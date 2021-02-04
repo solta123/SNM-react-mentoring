@@ -4,15 +4,19 @@ import Searchbar from './Searchbar/Searchbar';
 import FilterMovies from './FilterMovies/FilterMovies';
 import MovieCard from './MovieCard/MovieCard';
 import ErrorBoundary from './MovieCard/ErrorBoundary';
+import MovieDetail from './MovieDetail/MovieDetail';
 
 function App() {
+  // ide kell egy useeffect a movie kiválasztására, annak state-jének beállítására, és nullra állításának is (closing)
   return (
     <ErrorBoundary>
       <div className="App">
         <div className="AppContainer">
           <AppHeader></AppHeader>
           <div className="container">
-            <Searchbar />
+            <div className="MovieDetailDiv">
+              <MovieDetail />
+            </div>
             <div>
               <FilterMovies></FilterMovies>
             </div>

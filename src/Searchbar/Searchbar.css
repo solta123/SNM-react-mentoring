@@ -4,4 +4,10 @@
 
 .form {
   vertical-align: middle;
+  height: 100%;
+  padding-top: 7rem;
+}
+
+.SearchbarDiv {
+  height: 100%;
 }
