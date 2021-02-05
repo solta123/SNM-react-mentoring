@@ -62,7 +62,7 @@ const MovieCard = (props) => {
           <MenuItem onClick={openDeletion}>Delete</MenuItem>
         </Menu>
       </div>
-      <Card className="MovieCardRoot" onClick={props.handleClick} onTouchStart={false}>
+      <Card className="MovieCardRoot" onClick={props.handleClick}>
         <CardActionArea disableRipple>
           <CardMedia className="media" image={movieDetail.img} title={movieDetail.title} />
           <CardContent className="details">
