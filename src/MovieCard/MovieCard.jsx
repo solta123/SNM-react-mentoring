@@ -19,29 +19,21 @@ const MovieCard = (props) => {
 
   const movieDetail = props.movie;
 
-  const handleOpen = () => {
+  const handleOpenEditModal = () => {
     setOpen(true);
     setMenu(null);
-  };
+  }
 
-  const handleCloseModal = () => {
+  const handleCloseEditModal = () => {
     setOpen(false);
   };
 
-  const handleClick = (event) => {
-    setMenu(event.currentTarget);
-  };
-
-  const handleCloseMenu = () => {
-    setMenu(null);
-  };
-
-  const openDeletion = () => {
+  const handleOpenDeletionModal = () => {
     setDeletion(true);
     setMenu(null);
   }
 
-  const closeDeletion = () => {
+  const closeDeletionModal = () => {
     setDeletion(false);
   }
 
@@ -54,12 +46,13 @@ const MovieCard = (props) => {
     <div className="MovieCardDiv">
       <div className="MoreButtonDiv">
         <IconButton className="MoreButton" disableRipple
-          style={{backgroundColor: '#2d2d2d', color: 'white', border: '2px white solid'}} onClick={handleClick}>
+          style={{backgroundColor: '#2d2d2d', color: 'white', border: '2px white solid'}}
+          onClick={(event) => { setMenu(event.currentTarget); }}>
           <MoreVertIcon />
         </IconButton>
-        <Menu anchorEl={menu} keepMounted open={Boolean(menu)} onClose={handleCloseMenu}>
-          <MenuItem onClick={handleOpen}>Edit</MenuItem>
-          <MenuItem onClick={openDeletion}>Delete</MenuItem>
+        <Menu anchorEl={menu} open={!!menu} onClose={() => setMenu(null)}>
+          <MenuItem onClick={handleOpenEditModal}>Edit</MenuItem>
+          <MenuItem onClick={handleOpenDeletionModal}>Delete</MenuItem>
         </Menu>
       </div>
       <Card className="MovieCardRoot" onClick={props.handleClick}>
@@ -83,14 +76,14 @@ const MovieCard = (props) => {
           </CardContent>
         </CardActionArea>
       </Card>
-      <Modal open={open} onClose={handleCloseModal} className="AddMovieModal">
+      <Modal open={open} onClose={handleCloseEditModal} className="AddMovieModal">
         <DialogContent>
-          <AddMovieModal movieDetail={movieDetail} onCloseModal={handleCloseModal} />
+          <AddMovieModal movieDetail={movieDetail} onCloseModal={handleCloseEditModal} />
         </DialogContent>
       </Modal>
-      <Modal open={deletion} onClose={closeDeletion} className="DeleteConfirmModal">
+      <Modal open={deletion} onClose={closeDeletionModal} className="DeleteConfirmModal">
         <DialogContent>
-          <DeleteConfirmModal type={'movie'} itemName={movieDetail.title} onClose={closeDeletion} onConfirm={confirmDeletion} />
+          <DeleteConfirmModal type={'movie'} itemName={movieDetail.title} onClose={closeDeletionModal} onConfirm={confirmDeletion} />
         </DialogContent>
       </Modal>
     </div>

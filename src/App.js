@@ -3,7 +3,7 @@ import AppHeader from './AppHeader/AppHeader';
 import Searchbar from './Searchbar/Searchbar';
 import FilterMovies from './FilterMovies/FilterMovies';
 import MovieCard from './MovieCard/MovieCard';
-import ErrorBoundary from './MovieCard/ErrorBoundary';
+import ErrorBoundary from './common/ErrorBoundrary/ErrorBoundary';
 import MovieDetail from './MovieDetail/MovieDetail';
 import { useState } from 'react';
 
