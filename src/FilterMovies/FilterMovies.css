@@ -2,10 +2,10 @@
   flex-grow: 1;
 }
 
-.sortButton {
-  min-width: 150px;
+#SortButton {
+  min-width: 8rem;
 }
 
-.FilterMoviesDivider {
-  margin: 0 0.7rem !important;
+#Divider {
+  margin: 0 0.5rem;
 }

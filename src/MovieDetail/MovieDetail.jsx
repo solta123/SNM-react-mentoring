@@ -2,12 +2,12 @@ import React from 'react';
 import { Grid, Paper, Typography } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import './MovieDetail.scss';
+import * as actionTypes from '../store/actions';
+import { connect } from 'react-redux';
 
 const MovieDetail = props => {
-    // ide kell egy useeffect a props változására
-
     return <Paper className="MovieDetail">
-        <SearchIcon onClick={props.handleClose} />
+        <SearchIcon onClick={() => props.onDeselectMovie()} />
         <Grid container spacing={3}>
             <Grid item xs={3}>
                 <img src={props.movie.img} alt={props.movie.title} />
@@ -29,4 +29,16 @@ const MovieDetail = props => {
     </Paper>
 };
 
-export default MovieDetail;
+const mapStateToProps = state => {
+    return {
+        movie: state.movie.selectedMovie
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onDeselectMovie: () => dispatch({type: actionTypes.DESELECT_MOVIE})
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieDetail);

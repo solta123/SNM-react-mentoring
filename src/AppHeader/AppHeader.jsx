@@ -12,14 +12,6 @@ import { DialogContent } from '@material-ui/core';
 const AppHeader = () => {
   const [open, setOpen] = React.useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <div className="root">
       <AppBar position="static">
@@ -27,12 +19,12 @@ const AppHeader = () => {
           <Typography variant="h6" className="title">
             <b>netflix</b>Roulette
           </Typography>
-          <Button color="inherit" variant="outlined" onClick={handleOpen}>
+          <Button color="inherit" variant="outlined" onClick={() => setOpen(false)}>
             <AddIcon></AddIcon>Add movie
           </Button>
-          <Modal open={open} onClose={handleClose} className="AddMovieModal">
+          <Modal open={open} onClose={() => setOpen(false)} className="AddMovieModal">
             <DialogContent>
-              <AddMovieModal onCloseModal={handleClose} />
+              <AddMovieModal onCloseModal={() => setOpen(false)} />
             </DialogContent>
           </Modal>
         </Toolbar>

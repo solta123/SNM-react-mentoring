@@ -11,6 +11,8 @@ import { IconButton, Menu, MenuItem, Modal, DialogContent } from '@material-ui/c
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AddMovieModal from '../AddMovieModal/AddMovieModal';
 import DeleteConfirmModal from '../DeleteConfirmModal/DeleteConfirmModal';
+import * as actionTypes from '../store/actions';
+import { connect } from 'react-redux';
 
 const MovieCard = (props) => {
   const [menu, setMenu] = React.useState(null);
@@ -39,14 +41,20 @@ const MovieCard = (props) => {
 
   const confirmDeletion = () => {
     setDeletion(false);
-    console.log('deleted movie');
+    props.onDelete(movieDetail.id);
+  }
+
+  const onMovieClicked = movie => {
+    props.onSelectMovie(movie);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }
 
   return (
     <div className="MovieCardDiv">
       <div className="MoreButtonDiv">
         <IconButton className="MoreButton" disableRipple
-          style={{backgroundColor: '#2d2d2d', color: 'white', border: '2px white solid'}}
+          style={{ backgroundColor: '#2d2d2d', color: 'white', border: '2px white solid' }}
           onClick={(event) => { setMenu(event.currentTarget); }}>
           <MoreVertIcon />
         </IconButton>
@@ -55,7 +63,7 @@ const MovieCard = (props) => {
           <MenuItem onClick={handleOpenDeletionModal}>Delete</MenuItem>
         </Menu>
       </div>
-      <Card className="MovieCardRoot" onClick={props.handleClick}>
+      <Card className="MovieCardRoot" onClick={() => onMovieClicked(movieDetail)}>
         <CardActionArea disableRipple>
           <CardMedia className="media" image={movieDetail.img} title={movieDetail.title} />
           <CardContent className="details">
@@ -97,4 +105,11 @@ MovieCard.propTypes = {
   year: PropTypes.string
 }
 
-export default MovieCard;
+const mapDispatchToProps = dispatch => {
+  return {
+    onSelectMovie: (movie) => dispatch({ type: actionTypes.SELECT_MOVIE, movie: movie }),
+    onDelete: (id) => dispatch({ type: actionTypes.DELETE, id: id })
+  }
+}
+
+export default connect(null, mapDispatchToProps)(MovieCard);

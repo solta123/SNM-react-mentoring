@@ -9,101 +9,119 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { useFormik } from 'formik';
+import * as actionTypes from '../store/actions';
+import { connect } from 'react-redux';
+import { genres } from '../common/genres';
 
 const AddMovieModal = React.forwardRef((props, ref) => {
-    const [genre, setGenre] = React.useState([]);
+    const formatDate = (date) => {
+        return date.getFullYear() + '-' + (date.getMonth() > 9 ? '' : '0')
+            + date.getMonth() + '-' + date.getDate()
+    }
 
-    const handleGenreChange = (event) => {
-        setGenre(event.target.value);
+    const validate = values => {
+        const errors = {};
+
+        if (!values.title) {
+            errors.title = 'Required title';
+        }
+
+        if (!values.year) {
+            errors.year = 'Required release date';
+        }
+
+        if (!values.img) {
+            errors.img = 'Required to add a link to an image';
+        }
+
+        if (values.duration < 0) {
+            errors.duration = 'Hmm, this seems a little short...';
+        }
+        return errors;
     };
 
-    const genres = [
-        'Documentary', 'Comedy', 'Horror', 'Crime', 'Action', 'Adventure', 'Drama', 'Oscar winning movie', 'Musical', 'Sci-fi'
-    ];
-    const releaseDate = props.movieDetail ? props.movieDetail.year.getFullYear() + '-' + (props.movieDetail.year.getMonth() > 9 ? '' : '0')
-        + props.movieDetail.year.getMonth() + '-' + props.movieDetail.year.getDate() : '';
-
-    if (props.movieDetail?.id) {
-        return <Paper ref={ref} className="ModalContainer">
-            <div>
-                <CloseIcon onClick={props.onCloseModal} className="closeIcon" />
-                <Typography variant="h5">Edit Movie</Typography>
-            </div>
-            <form className="AddMovieForm">
-                <div>
-                    <TextField label="ID" value={props.movieDetail.id} disabled />
-                </div>
-                <div>
-                    <TextField label="Title" value={props.movieDetail.title} />
-                </div>
-                <div>
-                    <TextField label="Release date" type="date" InputLabelProps={{ shrink: true }}
-                        value={releaseDate} />
-                </div>
-                <div>
-                    <TextField label="Movie URL" />
-                </div>
-                <div>
-                    <FormControl>
-                        <InputLabel>Genre</InputLabel>
-                        <Select onChange={handleGenreChange} multiple value={props.movieDetail.genre}>
-                            {genres.map(genreItem => (
-                                <MenuItem key={genreItem} value={genreItem}>{genreItem}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </div>
-                <div>
-                    <TextField label="Overview" multiline rows={3} rowsMax={10} />
-                </div>
-                <div>
-                    <TextField label="Runtime" type="number" value={props.movieDetail.duration} />
-                </div>
-                <div>
-                    <Button variant="contained" color="primary" className="AddMovieFormButtons">Submit</Button>
-                    <Button variant="contained" className="AddMovieFormButtons">Reset</Button>
-                </div>
-            </form>
-        </Paper>
-    }
+    const formik = useFormik({
+        initialValues: props.movieDetail?.id ? { ...props.movieDetail, year: formatDate(props.movieDetail.year) } : {
+            id: Math.floor(Math.random() * 100000),
+            title: '',
+            year: formatDate(new Date()),
+            genre: [],
+            img: '',
+            duration: 0,
+            description: ''
+        },
+        validate,
+        onSubmit: values => {
+            const movie = {...values, year: new Date(values.year)}
+            props.movieDetail ? props.onEdit(movie) : props.onAdd(movie)
+            props.onCloseModal();
+        }
+    });
 
     return <Paper ref={ref} className="ModalContainer">
         <div>
             <CloseIcon onClick={props.onCloseModal} className="closeIcon" />
-            <Typography variant="h5">Add Movie</Typography>
+            <Typography variant="h5">
+                {props.movieDetail ? <span>Edit movie</span> : <span>Add movie</span>}
+            </Typography>
         </div>
-        <form className="AddMovieForm">
+
+        <form onSubmit={formik.handleSubmit} className="AddMovieForm">
             <div>
-                <TextField label="Title" />
+                <TextField id="title" name="title" type="text" label="Title"
+                    onChange={formik.handleChange} value={formik.values.title} />
             </div>
+            {formik.errors.title ? <div className="error">{formik.errors.title}</div> : null}
+
             <div>
-                <TextField label="Release date" type="date" InputLabelProps={{ shrink: true }} />
+                <TextField label="Release date" InputLabelProps={{ shrink: true }} id="year"
+                    name="year" type="date" onChange={formik.handleChange} value={formik.values.year} />
             </div>
+            {formik.errors.year ? <div className="error">{formik.errors.year}</div> : null}
+
             <div>
-                <TextField label="Movie URL" />
+                <TextField label="Movie URL" id="img" name="img" type="text"
+                    onChange={formik.handleChange} value={formik.values.img}
+                />
             </div>
+            {formik.errors.img ? <div className="error">{formik.errors.img}</div> : null}
+
             <div>
                 <FormControl>
                     <InputLabel>Genre</InputLabel>
-                    <Select value={genre} onChange={handleGenreChange} multiple>
+                    <Select id="genre" name="genre" value={formik.values.genre} onChange={formik.handleChange} multiple>
                         {genres.map(genreItem => (
                             <MenuItem key={genreItem} value={genreItem}>{genreItem}</MenuItem>
                         ))}
                     </Select>
                 </FormControl>
             </div>
+
             <div>
-                <TextField label="Overview" multiline rows={3} rowsMax={10} />
+                <TextField label="Overview" id="description" name="description" type="text"
+                    multiline rows={3} rowsMax={10} onChange={formik.handleChange} value={formik.values.description} />
             </div>
+
             <div>
-                <TextField label="Runtime" type="number" />
+                <TextField label="Runtime" id="duration" name="duration" type="number"
+                    onChange={formik.handleChange} value={formik.values.duration} />
             </div>
+            {formik.errors.duration ? <div className="error">{formik.errors.duration}</div> : null}
+
             <div>
-                <Button variant="contained" color="primary" className="AddMovieFormButtons">Submit</Button>
+                <Button variant="contained" color="primary" className="AddMovieFormButtons" type="submit">Submit</Button>
                 <Button variant="contained" className="AddMovieFormButtons">Reset</Button>
             </div>
         </form>
     </Paper>
 });
 
-export default AddMovieModal;
+const mapDispatchToProps = dispatch => {
+    return {
+        onEdit: (movie) => dispatch({ type: actionTypes.EDIT, movie: movie }),
+        onAdd: (movie) => dispatch({ type: actionTypes.ADD, movie: movie })
+    }
+}
+
+export default connect(null, mapDispatchToProps)(AddMovieModal);
