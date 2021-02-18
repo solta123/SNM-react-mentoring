@@ -1,17 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import movieReducer from './store/reducers/movie';
+import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
   movie: movieReducer
 });
 
-const store = createStore(rootReducer);
+const middleware = store => {
+  return next => {
+    return action => {
+      const result = next(action);
+      return result;
+    }
+  }
+}
+
+const store = createStore(rootReducer, applyMiddleware(middleware, thunk));
 
 ReactDOM.render(
   <Provider store={store}>

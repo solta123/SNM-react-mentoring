@@ -10,20 +10,20 @@ const MovieDetail = props => {
         <SearchIcon onClick={() => props.onDeselectMovie()} />
         <Grid container spacing={3}>
             <Grid item xs={3}>
-                <img src={props.movie.img} alt={props.movie.title} />
+                <img src={props.movie.poster_path} alt={props.movie.title} />
             </Grid>
             <Grid item xs={9}>
                 <Typography variant="h3">{props.movie.title}</Typography>
                 <Typography variant="subtitle1">
-                    {props.movie.genre.map((genre, i) => {
-                        if (i + 1 < props.movie.genre.length) {
+                    {props.movie.genres.map((genre, i) => {
+                        if (i + 1 < props.movie.genres.length) {
                             return genre + ', ';
                         }
                         return genre;
                     })}
                 </Typography>
-                <Typography variant="h5">{props.movie.year.getFullYear()}, {props.movie.duration} min</Typography>
-                <Typography variant="subtitle1">{props.movie.description}</Typography>
+                <Typography variant="h5">{props.movie.release_date}, {props.movie.runtime} min</Typography>
+                <Typography variant="subtitle1">{props.movie.overview}</Typography>
             </Grid>
         </Grid>
     </Paper>

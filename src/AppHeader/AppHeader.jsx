@@ -19,7 +19,7 @@ const AppHeader = () => {
           <Typography variant="h6" className="title">
             <b>netflix</b>Roulette
           </Typography>
-          <Button color="inherit" variant="outlined" onClick={() => setOpen(false)}>
+          <Button color="inherit" variant="outlined" onClick={() => setOpen(true)}>
             <AddIcon></AddIcon>Add movie
           </Button>
           <Modal open={open} onClose={() => setOpen(false)} className="AddMovieModal">

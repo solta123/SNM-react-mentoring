@@ -6,8 +6,16 @@ import MovieCard from './MovieCard/MovieCard';
 import ErrorBoundary from './common/ErrorBoundrary/ErrorBoundary';
 import MovieDetail from './MovieDetail/MovieDetail';
 import { connect } from 'react-redux';
+import { useEffect } from 'react';
+import { getMovies } from './store/actionCreator';
 
 const App = props => {
+  useEffect(() => {
+    props.onGetMovies();
+    //return () => {
+    //  ChatAPI.unsubscribeFromFriendStatus(props.friend.id, handleStatusChange);
+  }, [props.sortBy, props.selectedGenre]);
+
   return (
     <ErrorBoundary>
       <div className="App">
@@ -41,8 +49,16 @@ const App = props => {
 const mapStateToProps = state => {
   return {
     detailedMovie: state.movie.selectedMovie,
-    movies: [...state.movie.filteredMovies]
+    movies: [...state.movie.filteredMovies],
+    selectedGenre: state.movie.selectedGenre,
+    sortBy: state.movie.sortBy
   }
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    onGetMovies: () => dispatch(getMovies())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

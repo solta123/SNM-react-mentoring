@@ -1,12 +1,16 @@
 export const genres = [
-    'DOCUMENTARY',
-    'COMEDY',
-    'HORROR',
-    'CRIME',
-    'ACTION',
-    'ADVENTURE',
-    'DRAMA',
-    'OSCAR WINNING',
-    'MUSICAL',
-    'SCI-FI'
+    'Documentary',
+    'Comedy',
+    'Horror',
+    'Crime',
+    'Action',
+    'Adventure',
+    'Drama',
+    'Oscar winning',
+    'Musical',
+    'Science Fiction',
+    'Romance',
+    'Fantasy',
+    'Family',
+    'Animation'
 ];

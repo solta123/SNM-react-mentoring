@@ -16,8 +16,8 @@ import { genres } from '../common/genres';
 
 const AddMovieModal = React.forwardRef((props, ref) => {
     const formatDate = (date) => {
-        return date.getFullYear() + '-' + (date.getMonth() > 9 ? '' : '0')
-            + date.getMonth() + '-' + date.getDate()
+        return date.getFullYear() + '-' + (date.getMonth() + 1 > 9 ? '' : '0')
+            + (date.getMonth() + 1) + '-' + date.getDate()
     }
 
     const validate = values => {
@@ -27,34 +27,32 @@ const AddMovieModal = React.forwardRef((props, ref) => {
             errors.title = 'Required title';
         }
 
-        if (!values.year) {
-            errors.year = 'Required release date';
+        if (!values.release_date) {
+            errors.release_date = 'Required release date';
         }
 
-        if (!values.img) {
-            errors.img = 'Required to add a link to an image';
+        if (!values.poster_path) {
+            errors.poster_path = 'Required to add a link to an image';
         }
 
-        if (values.duration < 0) {
-            errors.duration = 'Hmm, this seems a little short...';
+        if (values.runtime < 0) {
+            errors.runtime = 'Hmm, this seems a little short...';
         }
         return errors;
     };
 
     const formik = useFormik({
-        initialValues: props.movieDetail?.id ? { ...props.movieDetail, year: formatDate(props.movieDetail.year) } : {
-            id: Math.floor(Math.random() * 100000),
+        initialValues: props.movieDetail?.id ? { ...props.movieDetail, release_date: props.movieDetail.release_date } : {
             title: '',
-            year: formatDate(new Date()),
-            genre: [],
-            img: '',
-            duration: 0,
-            description: ''
+            release_date: formatDate(new Date()),
+            genres: [],
+            poster_path: '',
+            runtime: 0,
+            overview: ''
         },
         validate,
         onSubmit: values => {
-            const movie = {...values, year: new Date(values.year)}
-            props.movieDetail ? props.onEdit(movie) : props.onAdd(movie)
+            props.movieDetail ? props.onEdit(values) : props.onAdd(values)
             props.onCloseModal();
         }
     });
@@ -75,22 +73,22 @@ const AddMovieModal = React.forwardRef((props, ref) => {
             {formik.errors.title ? <div className="error">{formik.errors.title}</div> : null}
 
             <div>
-                <TextField label="Release date" InputLabelProps={{ shrink: true }} id="year"
-                    name="year" type="date" onChange={formik.handleChange} value={formik.values.year} />
+                <TextField label="Release date" InputLabelProps={{ shrink: true }} id="release_date"
+                    name="release_date" type="date" onChange={formik.handleChange} value={formik.values.release_date} />
             </div>
-            {formik.errors.year ? <div className="error">{formik.errors.year}</div> : null}
+            {formik.errors.release_date ? <div className="error">{formik.errors.release_date}</div> : null}
 
             <div>
-                <TextField label="Movie URL" id="img" name="img" type="text"
-                    onChange={formik.handleChange} value={formik.values.img}
+                <TextField label="Movie URL" id="poster_path" name="poster_path" type="text"
+                    onChange={formik.handleChange} value={formik.values.poster_path}
                 />
             </div>
-            {formik.errors.img ? <div className="error">{formik.errors.img}</div> : null}
+            {formik.errors.poster_path ? <div className="error">{formik.errors.poster_path}</div> : null}
 
             <div>
                 <FormControl>
-                    <InputLabel>Genre</InputLabel>
-                    <Select id="genre" name="genre" value={formik.values.genre} onChange={formik.handleChange} multiple>
+                    <InputLabel>Genres</InputLabel>
+                    <Select id="genres" name="genres" value={formik.values.genres} onChange={formik.handleChange} multiple>
                         {genres.map(genreItem => (
                             <MenuItem key={genreItem} value={genreItem}>{genreItem}</MenuItem>
                         ))}
@@ -99,15 +97,15 @@ const AddMovieModal = React.forwardRef((props, ref) => {
             </div>
 
             <div>
-                <TextField label="Overview" id="description" name="description" type="text"
-                    multiline rows={3} rowsMax={10} onChange={formik.handleChange} value={formik.values.description} />
+                <TextField label="Overview" id="overview" name="overview" type="text"
+                    multiline rows={3} rowsMax={10} onChange={formik.handleChange} value={formik.values.overview} />
             </div>
 
             <div>
-                <TextField label="Runtime" id="duration" name="duration" type="number"
-                    onChange={formik.handleChange} value={formik.values.duration} />
+                <TextField label="Runtime" id="runtime" name="runtime" type="number"
+                    onChange={formik.handleChange} value={formik.values.runtime} />
             </div>
-            {formik.errors.duration ? <div className="error">{formik.errors.duration}</div> : null}
+            {formik.errors.runtime ? <div className="error">{formik.errors.runtime}</div> : null}
 
             <div>
                 <Button variant="contained" color="primary" className="AddMovieFormButtons" type="submit">Submit</Button>

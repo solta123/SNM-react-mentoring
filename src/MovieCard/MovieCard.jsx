@@ -65,17 +65,17 @@ const MovieCard = (props) => {
       </div>
       <Card className="MovieCardRoot" onClick={() => onMovieClicked(movieDetail)}>
         <CardActionArea disableRipple>
-          <CardMedia className="media" image={movieDetail.img} title={movieDetail.title} />
+          <CardMedia className="media" image={movieDetail.poster_path} title={movieDetail.title} />
           <CardContent className="details">
             <div>
               <Typography gutterBottom variant="h5" component="h4">
                 {movieDetail.title}
               </Typography>
-              <Paper variant="outlined" className="year" color="textSecondary">{movieDetail.year.getFullYear()}</Paper>
+              <Paper variant="outlined" className="year" color="textSecondary">{movieDetail.release_date.substring(0, 4)}</Paper>
             </div>
             <Typography variant="body2" color="textSecondary" component="p">
-              {movieDetail.genre.map((genre, i) => {
-                if (i >= movieDetail.genre.length - 1) {
+              {movieDetail.genres.map((genre, i) => {
+                if (i >= movieDetail.genres.length - 1) {
                   return <span key={genre}>{genre}</span>
                 }
                 return <span key={genre}>{genre}, </span>

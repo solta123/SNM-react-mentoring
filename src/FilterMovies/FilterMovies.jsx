@@ -12,28 +12,23 @@ import { genres } from '../common/genres';
 import * as actionTypes from '../store/actions';
 import { connect } from 'react-redux';
 
-const AppHeader = props => {
-    const [tabValue, setTabValue] = React.useState('all');
-    const [sortValue, setSortValue] = React.useState('year');
+const FilterMovies = props => {
     const wrapper = React.createRef();
 
     const handleChange = (event, newValue) => {
-        setTabValue(newValue);
         props.onGenreClick(newValue);
     };
 
     const handleSortChange = (event) => {
-        setSortValue(event.target.value);
-        console.log('dispatching')
         props.onSortSelect(event.target.value);
     }
 
     return (
         <div className="FilterMoviesRoot" >
             <Toolbar>
-                <Tabs value={tabValue} onChange={handleChange} indicatorColor="primary"
+                <Tabs value={props.selectedGenre} onChange={handleChange} indicatorColor="primary"
                     textColor="primary" variant="scrollable" scrollButtons="auto">
-                    <Tab label="All" value="all" />
+                    <Tab label="All" value="ALL" />
                     {genres.map(genre => {
                         return <Tab key={genre} label={genre} value={genre} />
                     })}
@@ -41,7 +36,7 @@ const AppHeader = props => {
                 <Divider orientation="vertical" flexItem id="Divider" />
                 <FormControl ref={wrapper} id="SortButton">
                     <InputLabel id="sort-by">Sort by:</InputLabel>
-                    <Select labelId="sort-by" id="sort-by-select" value={sortValue} onChange={handleSortChange}>
+                    <Select labelId="sort-by" id="sort-by-select" value={props.sortBy} onChange={handleSortChange}>
                         <MenuItem value={'year'}>Release date</MenuItem>
                         <MenuItem value={'title'}>Name</MenuItem>
                     </Select>
@@ -51,6 +46,12 @@ const AppHeader = props => {
     );
 }
 
+const mapStateToProps = state => {
+    return {
+        sortBy: state.movie.sortBy,
+        selectedGenre: state.movie.selectedGenre
+    }
+}
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -59,4 +60,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(AppHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(FilterMovies);
