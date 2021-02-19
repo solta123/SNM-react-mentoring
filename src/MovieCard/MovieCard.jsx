@@ -3,7 +3,7 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+//import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
@@ -66,8 +66,8 @@ const MovieCard = (props) => {
       </div>
       <Card className="MovieCardRoot" onClick={() => onMovieClicked(movieDetail)}>
         <CardActionArea disableRipple>
-          {movieDetail.poster_path ?
-            <CardMedia className="media" image={movieDetail.poster_path} title={movieDetail.title} /> : null}
+          <img className="media" src={movieDetail.poster_path} alt={movieDetail.title}
+            /*onError={(e) => { e.target.onError = null; e.target.src = null }}*/ />
           <CardContent className="details">
             <div>
               <Typography gutterBottom variant="h5" component="h4">

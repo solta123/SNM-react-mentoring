@@ -42,23 +42,23 @@ const AddMovieModal = React.forwardRef((props, ref) => {
     };
 
     const formik = useFormik({
-        initialValues: props.movieDetail?.id ? { ...props.movieDetail } : {
-            title: '',
-            release_date: formatDate(new Date()),
-            genres: [],
-            poster_path: '',
-            runtime: 0,
-            overview: '',
-            tagline: '',
-            vote_average: 6.0,
-            vote_count: 0,
-            budget: 0,
-            revenue: 0
+        initialValues: {
+            title: props.movieDetail?.title ? props.movieDetail.title : '',
+            release_date: props.movieDetail?.release_date ? props.movieDetail.release_date : formatDate(new Date()),
+            genres: props.movieDetail?.genres ? [...props.movieDetail.genres] : [],
+            poster_path: props.movieDetail?.poster_path ? props.movieDetail.poster_path : '',
+            runtime: props.movieDetail?.runtime ? props.movieDetail.runtime : 0,
+            overview: props.movieDetail?.overview ? props.movieDetail.overview : '',
+            tagline: props.movieDetail?.tagline ? props.movieDetail.tagline : 'asd',
+            vote_average: props.movieDetail?.vote_average ? props.movieDetail.vote_average : 6.0,
+            vote_count: props.movieDetail?.vote_count ? props.movieDetail.vote_count : 0,
+            budget: props.movieDetail?.budget ? props.movieDetail.budget : 0,
+            revenue: props.movieDetail?.revenue ? props.movieDetail.revenue : 0
         },
         validate,
         onSubmit: values => {
-            console.log(values)
-            props.movieDetail ? props.onEdit(values) : props.onAdd(values)
+            console.log(JSON.stringify(values))
+            props.movieDetail ? props.onEdit({...values, id: props.movieDetail.id}) : props.onAdd(values);
             props.onCloseModal();
         }
     });

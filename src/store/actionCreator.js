@@ -21,7 +21,7 @@ export const dispatchGetMovies = movies => {
 export const addMovie = movie => {
     console.log('add: ', movie)
     return dispatch => {
-        axios.post('http://localhost:4000/movies', JSON.stringify(movie)).then((res) => {
+        axios.post('http://localhost:4000/movies',movie).then((res) => {
             console.log(res)
             dispatch(getMovies());
         }, err => {
