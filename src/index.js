@@ -21,7 +21,7 @@ const middleware = store => {
   }
 }
 
-const store = createStore(rootReducer, applyMiddleware(middleware, thunk));
+export const store = createStore(rootReducer, applyMiddleware(middleware, thunk));
 
 ReactDOM.render(
   <Provider store={store}>

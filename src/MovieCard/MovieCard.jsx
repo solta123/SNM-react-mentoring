@@ -13,6 +13,7 @@ import AddMovieModal from '../AddMovieModal/AddMovieModal';
 import DeleteConfirmModal from '../DeleteConfirmModal/DeleteConfirmModal';
 import * as actionTypes from '../store/actions';
 import { connect } from 'react-redux';
+import { deleteMovie } from '../store/actionCreator';
 
 const MovieCard = (props) => {
   const [menu, setMenu] = React.useState(null);
@@ -65,7 +66,8 @@ const MovieCard = (props) => {
       </div>
       <Card className="MovieCardRoot" onClick={() => onMovieClicked(movieDetail)}>
         <CardActionArea disableRipple>
-          <CardMedia className="media" image={movieDetail.poster_path} title={movieDetail.title} />
+          {movieDetail.poster_path ?
+            <CardMedia className="media" image={movieDetail.poster_path} title={movieDetail.title} /> : null}
           <CardContent className="details">
             <div>
               <Typography gutterBottom variant="h5" component="h4">
@@ -108,7 +110,7 @@ MovieCard.propTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     onSelectMovie: (movie) => dispatch({ type: actionTypes.SELECT_MOVIE, movie: movie }),
-    onDelete: (id) => dispatch({ type: actionTypes.DELETE, id: id })
+    onDelete: (id) => dispatch(deleteMovie(id))
   }
 }
 

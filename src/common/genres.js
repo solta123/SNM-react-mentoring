@@ -6,11 +6,14 @@ export const genres = [
     'Action',
     'Adventure',
     'Drama',
-    'Oscar winning',
-    'Musical',
     'Science Fiction',
     'Romance',
     'Fantasy',
     'Family',
-    'Animation'
+    'Animation',
+    'Thriller',
+    'Mystery',
+    'History',
+    'Western',
+    'Music'
 ];

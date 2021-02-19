@@ -10,9 +10,9 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { useFormik } from 'formik';
-import * as actionTypes from '../store/actions';
 import { connect } from 'react-redux';
 import { genres } from '../common/genres';
+import { addMovie, editMovie } from '../store/actionCreator';
 
 const AddMovieModal = React.forwardRef((props, ref) => {
     const formatDate = (date) => {
@@ -35,23 +35,29 @@ const AddMovieModal = React.forwardRef((props, ref) => {
             errors.poster_path = 'Required to add a link to an image';
         }
 
-        if (values.runtime < 0) {
+        if ((!values.runtime && values.runtime !== 0) || values.runtime < 0) {
             errors.runtime = 'Hmm, this seems a little short...';
         }
         return errors;
     };
 
     const formik = useFormik({
-        initialValues: props.movieDetail?.id ? { ...props.movieDetail, release_date: props.movieDetail.release_date } : {
+        initialValues: props.movieDetail?.id ? { ...props.movieDetail } : {
             title: '',
             release_date: formatDate(new Date()),
             genres: [],
             poster_path: '',
             runtime: 0,
-            overview: ''
+            overview: '',
+            tagline: '',
+            vote_average: 6.0,
+            vote_count: 0,
+            budget: 0,
+            revenue: 0
         },
         validate,
         onSubmit: values => {
+            console.log(values)
             props.movieDetail ? props.onEdit(values) : props.onAdd(values)
             props.onCloseModal();
         }
@@ -117,8 +123,8 @@ const AddMovieModal = React.forwardRef((props, ref) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onEdit: (movie) => dispatch({ type: actionTypes.EDIT, movie: movie }),
-        onAdd: (movie) => dispatch({ type: actionTypes.ADD, movie: movie })
+        onEdit: (movie) => dispatch(editMovie(movie)),
+        onAdd: (movie) => dispatch(addMovie(movie))
     }
 }
 

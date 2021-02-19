@@ -14,7 +14,7 @@ const App = props => {
     props.onGetMovies();
     //return () => {
     //  ChatAPI.unsubscribeFromFriendStatus(props.friend.id, handleStatusChange);
-  }, [props.sortBy, props.selectedGenre]);
+  }, []);
 
   return (
     <ErrorBoundary>

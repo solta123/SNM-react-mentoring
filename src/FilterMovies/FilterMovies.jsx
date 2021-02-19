@@ -9,8 +9,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Divider from '@material-ui/core/Divider';
 import { genres } from '../common/genres';
-import * as actionTypes from '../store/actions';
 import { connect } from 'react-redux';
+import { filterGenre, sortMovies } from '../store/actionCreator';
 
 const FilterMovies = props => {
     const wrapper = React.createRef();
@@ -28,7 +28,7 @@ const FilterMovies = props => {
             <Toolbar>
                 <Tabs value={props.selectedGenre} onChange={handleChange} indicatorColor="primary"
                     textColor="primary" variant="scrollable" scrollButtons="auto">
-                    <Tab label="All" value="ALL" />
+                    <Tab label="All" value="all" />
                     {genres.map(genre => {
                         return <Tab key={genre} label={genre} value={genre} />
                     })}
@@ -37,7 +37,7 @@ const FilterMovies = props => {
                 <FormControl ref={wrapper} id="SortButton">
                     <InputLabel id="sort-by">Sort by:</InputLabel>
                     <Select labelId="sort-by" id="sort-by-select" value={props.sortBy} onChange={handleSortChange}>
-                        <MenuItem value={'year'}>Release date</MenuItem>
+                        <MenuItem value={'release_date'}>Release date</MenuItem>
                         <MenuItem value={'title'}>Name</MenuItem>
                     </Select>
                 </FormControl>
@@ -55,8 +55,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onGenreClick: (genre) => dispatch({ type: actionTypes.GENRE_FILTER, genre: genre }),
-        onSortSelect: (sortBy) => dispatch({ type: actionTypes.SORT, sortBy: sortBy })
+        onGenreClick: (genre) => dispatch(filterGenre(genre)),
+        onSortSelect: (sortBy) => dispatch(sortMovies(sortBy))
     }
 }
 
