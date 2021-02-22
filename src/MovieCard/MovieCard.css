@@ -1,5 +1,6 @@
 .MovieCardRoot {
-  min-width: 250px;
+  position: relative;
+  height: 100%;
 }
 
 .MovieCardDiv {
@@ -9,17 +10,22 @@
 }
 
 .media {
-  height: 370px;
+  max-width: 100%;
 }
 
 .details {
   text-align: left;
+  position: absolute;
+  bottom: -10px;
+  background-color: white;
+  width: 90%;
 }
 
 .year {
   padding: 5px;
-  width: 32px;
+  width: 35px;
   float: right;
+  text-align: center;
 }
 
 .MoreButtonDiv {

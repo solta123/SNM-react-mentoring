@@ -1,9 +1,7 @@
 import './MovieCard.css';
 import React from 'react';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
-//import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
@@ -14,6 +12,9 @@ import DeleteConfirmModal from '../DeleteConfirmModal/DeleteConfirmModal';
 import * as actionTypes from '../store/actions';
 import { connect } from 'react-redux';
 import { deleteMovie } from '../store/actionCreator';
+import noImage from '../resources/no-image.png';
+
+require('../resources/no-image.png');
 
 const MovieCard = (props) => {
   const [menu, setMenu] = React.useState(null);
@@ -51,6 +52,10 @@ const MovieCard = (props) => {
     document.body.scrollTop = 0;
   }
 
+  const onImageLoadError = e => {
+    e.target.src = noImage;
+  }
+
   return (
     <div className="MovieCardDiv">
       <div className="MoreButtonDiv">
@@ -65,26 +70,26 @@ const MovieCard = (props) => {
         </Menu>
       </div>
       <Card className="MovieCardRoot" onClick={() => onMovieClicked(movieDetail)}>
-        <CardActionArea disableRipple>
-          <img className="media" src={movieDetail.poster_path} alt={movieDetail.title}
-            /*onError={(e) => { e.target.onError = null; e.target.src = null }}*/ />
-          <CardContent className="details">
-            <div>
-              <Typography gutterBottom variant="h5" component="h4">
-                {movieDetail.title}
-              </Typography>
-              <Paper variant="outlined" className="year" color="textSecondary">{movieDetail.release_date.substring(0, 4)}</Paper>
-            </div>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {movieDetail.genres.map((genre, i) => {
-                if (i >= movieDetail.genres.length - 1) {
-                  return <span key={genre}>{genre}</span>
-                }
-                return <span key={genre}>{genre}, </span>
-              })}
+        <div>
+          <img className="media" src={movieDetail.poster_path ? movieDetail.poster_path : noImage} alt={movieDetail.title}
+            onError={e => onImageLoadError(e)} />
+        </div>
+        <CardContent className="details" >
+          <div>
+            <Typography gutterBottom variant="h5" component="h4">
+              {movieDetail.title}
             </Typography>
-          </CardContent>
-        </CardActionArea>
+            <Paper variant="outlined" className="year" color="textSecondary">{movieDetail.release_date.substring(0, 4)}</Paper>
+          </div>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {movieDetail.genres.map((genre, i) => {
+              if (i >= movieDetail.genres.length - 1) {
+                return <span key={genre}>{genre}</span>
+              }
+              return <span key={genre}>{genre}, </span>
+            })}
+          </Typography>
+        </CardContent>
       </Card>
       <Modal open={open} onClose={handleCloseEditModal} className="AddMovieModal">
         <DialogContent>

@@ -31,7 +31,6 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GET:
             newState.movies = action.movies;
             newState.filteredMovies = [...action.movies];
-            console.log(newState.movies)
             break;
         default: break;
     }
