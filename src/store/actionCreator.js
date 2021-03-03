@@ -24,24 +24,24 @@ export const addMovie = movie => {
         }, err => {
             console.log(err);
         });
-    }
-}
+    };
+};
 
 export const editMovie = movie => {
     return dispatch => {
         axios.put('http://localhost:4000/movies', movie).then((res) => {
             dispatch(getMovies());
         });
-    }
-}
+    };
+};
 
 export const deleteMovie = id => {
     return dispatch => {
         axios.delete('http://localhost:4000/movies/' + id).then(() => {
             dispatch(getMovies());
         });
-    }
-}
+    };
+};
 
 export const filterGenre = genre => {
     return dispatch => {
@@ -49,8 +49,8 @@ export const filterGenre = genre => {
             const movies = await query({ ...store.getState().movie, selectedGenre: genre });
             dispatch({ type: actionTypes.GENRE_FILTER, value: genre, movies: movies.data.data });
         });
-    }
-}
+    };
+};
 
 export const sortMovies = sortBy => {
     return dispatch => {
@@ -58,14 +58,31 @@ export const sortMovies = sortBy => {
             const movies = await query({ ...store.getState().movie, sortBy: sortBy });
             dispatch({ type: actionTypes.SORT, value: sortBy, movies: movies.data.data });
         })
-    }
+    };
+};
+
+export const selectMovie = id => {
+    return dispatch => {
+        axios.get('http://localhost:4000/movies/' + id).then(result => {
+            dispatch({ type: actionTypes.SELECT_MOVIE, movie: result.data })
+        });
+    };
+};
+
+export const search = text => {
+    return dispatch => {
+        dispatch(async () => {
+            const movies = await query({ ...store.getState().movie, search: text });
+            dispatch({ type: actionTypes.SEARCH, value: text, movies: movies.data.data });
+        });
+    };
 }
 
 const query = async state => {
     return await axios.get('http://localhost:4000/movies', {
         params: {
-            sortBy: state.sortBy, sortOrder: 'desc',
+            sortBy: state.sortBy, sortOrder: 'desc', searchBy: 'title', search: state.search,
             filter: state.selectedGenre && state.selectedGenre !== 'all' ? state.selectedGenre : null
         }
     });
-}
+};

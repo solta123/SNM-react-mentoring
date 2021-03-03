@@ -20,12 +20,6 @@
   width: 100%;
 }
 
-.MoviesList {
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
-}
-
 .container {
   padding: 1rem
 }

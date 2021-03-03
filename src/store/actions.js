@@ -6,3 +6,4 @@ export const DESELECT_MOVIE = 'DESELECT_MOVIE';
 export const GENRE_FILTER = 'GENRE_FILTER';
 export const SORT = 'SORT';
 export const GET = 'GET';
+export const SEARCH = 'SEARCH';

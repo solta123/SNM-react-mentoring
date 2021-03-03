@@ -9,10 +9,10 @@ import { IconButton, Menu, MenuItem, Modal, DialogContent } from '@material-ui/c
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AddMovieModal from '../AddMovieModal/AddMovieModal';
 import DeleteConfirmModal from '../DeleteConfirmModal/DeleteConfirmModal';
-import * as actionTypes from '../store/actions';
 import { connect } from 'react-redux';
-import { deleteMovie } from '../store/actionCreator';
+import { deleteMovie, selectMovie } from '../store/actionCreator';
 import noImage from '../resources/no-image.png';
+import { NavLink } from 'react-router-dom';
 
 require('../resources/no-image.png');
 
@@ -46,8 +46,8 @@ const MovieCard = (props) => {
     props.onDelete(movieDetail.id);
   }
 
-  const onMovieClicked = movie => {
-    props.onSelectMovie(movie);
+  const onMovieClicked = id => {
+    props.onSelectMovie(id);
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
   }
@@ -69,28 +69,30 @@ const MovieCard = (props) => {
           <MenuItem onClick={handleOpenDeletionModal}>Delete</MenuItem>
         </Menu>
       </div>
-      <Card className="MovieCardRoot" onClick={() => onMovieClicked(movieDetail)}>
-        <div>
-          <img className="media" src={movieDetail.poster_path ? movieDetail.poster_path : noImage} alt={movieDetail.title}
-            onError={e => onImageLoadError(e)} />
-        </div>
-        <CardContent className="details" >
+      <NavLink to={'/film/' + movieDetail.id}>
+        <Card className="MovieCardRoot" onClick={() => onMovieClicked(movieDetail.id)}>
           <div>
-            <Typography gutterBottom variant="h5" component="h4">
-              {movieDetail.title}
-            </Typography>
-            <Paper variant="outlined" className="year" color="textSecondary">{movieDetail.release_date.substring(0, 4)}</Paper>
+            <img className="media" src={movieDetail.poster_path ? movieDetail.poster_path : noImage} alt={movieDetail.title}
+              onError={e => onImageLoadError(e)} />
           </div>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {movieDetail.genres.map((genre, i) => {
-              if (i >= movieDetail.genres.length - 1) {
-                return <span key={genre}>{genre}</span>
-              }
-              return <span key={genre}>{genre}, </span>
-            })}
-          </Typography>
-        </CardContent>
-      </Card>
+          <CardContent className="details" >
+            <div>
+              <Typography gutterBottom variant="h5" component="h4">
+                {movieDetail.title}
+              </Typography>
+              <Paper variant="outlined" className="year" color="textSecondary">{movieDetail.release_date.substring(0, 4)}</Paper>
+            </div>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {movieDetail.genres.map((genre, i) => {
+                if (i >= movieDetail.genres.length - 1) {
+                  return <span key={genre}>{genre}</span>
+                }
+                return <span key={genre}>{genre}, </span>
+              })}
+            </Typography>
+          </CardContent>
+        </Card>
+      </NavLink>
       <Modal open={open} onClose={handleCloseEditModal} className="AddMovieModal">
         <DialogContent>
           <AddMovieModal movieDetail={movieDetail} onCloseModal={handleCloseEditModal} />
@@ -114,7 +116,7 @@ MovieCard.propTypes = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSelectMovie: (movie) => dispatch({ type: actionTypes.SELECT_MOVIE, movie: movie }),
+    onSelectMovie: (id) => dispatch(selectMovie(id)),
     onDelete: (id) => dispatch(deleteMovie(id))
   }
 }
