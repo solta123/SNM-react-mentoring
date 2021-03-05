@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as actionTypes from './actions';
 import { store } from '../index';
+import { mapMovie } from '../mapper/movieMapper';
 
 export const getMovies = (param = null) => {
     const state = param ? param : store.getState().movie;
@@ -18,8 +19,10 @@ export const dispatchGetMovies = movies => {
 };
 
 export const addMovie = movie => {
+    const mappedMovie = mapMovie(movie);
+
     return dispatch => {
-        axios.post('http://localhost:4000/movies', movie).then((res) => {
+        axios.post('http://localhost:4000/movies', mappedMovie).then((res) => {
             dispatch(getMovies());
         }, err => {
             console.log(err);
@@ -28,8 +31,10 @@ export const addMovie = movie => {
 };
 
 export const editMovie = movie => {
+    const mappedMovie = mapMovie(movie);
+
     return dispatch => {
-        axios.put('http://localhost:4000/movies', movie).then((res) => {
+        axios.put('http://localhost:4000/movies', mappedMovie).then((res) => {
             dispatch(getMovies());
         });
     };

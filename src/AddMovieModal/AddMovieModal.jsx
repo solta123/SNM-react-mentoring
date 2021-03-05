@@ -13,13 +13,10 @@ import { useFormik } from 'formik';
 import { connect } from 'react-redux';
 import { genres } from '../common/genres';
 import { addMovie, editMovie } from '../store/actionCreator';
+import { getEmptyMovie } from '../mapper/movieMapper';
 
 const AddMovieModal = React.forwardRef((props, ref) => {
     const [submitted, setSubmitted] = useState(false);
-    const formatDate = (date) => {
-        return date.getFullYear() + '-' + (date.getMonth() + 1 > 9 ? '' : '0')
-            + (date.getMonth() + 1) + '-' + (date.getDate() < 10 ? '0' : '') + date.getDate();
-    }
 
     const validate = values => {
         let errors = {};
@@ -66,17 +63,7 @@ const AddMovieModal = React.forwardRef((props, ref) => {
 
     const formik = useFormik({
         initialValues: {
-            title: props.movieDetail?.title ? props.movieDetail.title : '',
-            release_date: props.movieDetail?.release_date ? props.movieDetail.release_date : formatDate(new Date()),
-            genres: props.movieDetail?.genres ? [...props.movieDetail.genres] : [],
-            poster_path: props.movieDetail?.poster_path ? props.movieDetail.poster_path : '',
-            runtime: props.movieDetail?.runtime ? props.movieDetail.runtime : 0,
-            overview: props.movieDetail?.overview ? props.movieDetail.overview : '',
-            tagline: props.movieDetail?.tagline ? props.movieDetail.tagline : 'asd',
-            vote_average: props.movieDetail?.vote_average ? props.movieDetail.vote_average : 6.0,
-            vote_count: props.movieDetail?.vote_count ? props.movieDetail.vote_count : 0,
-            budget: props.movieDetail?.budget ? props.movieDetail.budget : 0,
-            revenue: props.movieDetail?.revenue ? props.movieDetail.revenue : 0
+            ...props.movieDetail || getEmptyMovie(),
         },
         validate,
         onSubmit: async values => {
