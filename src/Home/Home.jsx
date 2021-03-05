@@ -5,10 +5,9 @@ import MovieDetail from '../MovieDetail/MovieDetail';
 import { connect } from 'react-redux';
 import { getMovies } from '../store/actionCreator';
 import MoviesList from '../MoviesList/MoviesList';
-import { Redirect, Route, Switch } from 'react-router';
+import { Route, Switch } from 'react-router';
 
 const Home = props => {
-    const location = window.location.pathname;
     const [created, setCreated] = useState(false);
 
     useEffect(() => {
@@ -26,12 +25,7 @@ const Home = props => {
                     <Route path="/film/:id" component={MovieDetail} />
                     <Route component={Searchbar} />
                 </Switch>
-
-                <Switch>
-                    {location === '/' || location.startsWith('/film/') || location.startsWith('/search') ?
-                        <Route component={MoviesList} /> : null}
-                    <Redirect to="/not-found" />
-                </Switch>
+                <Route component={MoviesList} />
             </div>
             <footer className="AppFooter">
                 <div><b>netflix</b>Roulette</div>

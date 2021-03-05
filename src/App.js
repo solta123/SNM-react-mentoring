@@ -10,8 +10,8 @@ const App = () => {
     <ErrorBoundary>
       <BrowserRouter>
         <Switch>
-          <Route path="/not-found" component={NotFound} />
-          <Route component={Home} />
+          <Route exact path={["/", "/search*", "/film/:id"]} component={Home} />
+          <Route component={NotFound} />
         </Switch>
       </BrowserRouter>
     </ErrorBoundary>

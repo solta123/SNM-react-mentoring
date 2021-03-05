@@ -1,5 +1,5 @@
 import './AddMovieModal.css';
-import React from 'react';
+import React, { useState } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import { TextField } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
@@ -15,29 +15,52 @@ import { genres } from '../common/genres';
 import { addMovie, editMovie } from '../store/actionCreator';
 
 const AddMovieModal = React.forwardRef((props, ref) => {
+    const [submitted, setSubmitted] = useState(false);
     const formatDate = (date) => {
         return date.getFullYear() + '-' + (date.getMonth() + 1 > 9 ? '' : '0')
-            + (date.getMonth() + 1) + '-' + date.getDate()
+            + (date.getMonth() + 1) + '-' + (date.getDate() < 10 ? '0' : '') + date.getDate();
     }
 
     const validate = values => {
-        const errors = {};
+        let errors = {};
 
-        if (!values.title) {
-            errors.title = 'Required title';
+        if (submitted) {
+
+            if (!values.title) {
+                errors.title = submitted ? 'Required title' : '';
+            }
+
+            if (!values.release_date) {
+                errors.release_date = submitted ? 'Required release date' : '';
+            }
+
+            if (!values.poster_path) {
+                errors.poster_path = submitted ? 'Required to add a link to an image' : '';
+            }
+
+            if (!values.genres.length) {
+                errors.genres = submitted ? 'Please add at least one genre' : '';
+            }
+
+            if (!values.overview) {
+                errors.overview = submitted ? 'Required overview' : '';
+            }
+
+            if ((!values.runtime && values.runtime !== 0) || values.runtime < 0) {
+                errors.runtime = submitted ? 'Hmm, this seems a little short...' : '';
+            }
+
+        } else {
+            errors = {
+                title: '',
+                release_date: '',
+                poster_path: '',
+                genres: '',
+                overview: '',
+                runtime: ''
+            }
         }
 
-        if (!values.release_date) {
-            errors.release_date = 'Required release date';
-        }
-
-        if (!values.poster_path) {
-            errors.poster_path = 'Required to add a link to an image';
-        }
-
-        if ((!values.runtime && values.runtime !== 0) || values.runtime < 0) {
-            errors.runtime = 'Hmm, this seems a little short...';
-        }
         return errors;
     };
 
@@ -56,9 +79,10 @@ const AddMovieModal = React.forwardRef((props, ref) => {
             revenue: props.movieDetail?.revenue ? props.movieDetail.revenue : 0
         },
         validate,
-        onSubmit: values => {
-            props.movieDetail ? props.onEdit({...values, id: props.movieDetail.id}) : props.onAdd(values);
-            props.onCloseModal();
+        onSubmit: async values => {
+            props.movieDetail ? await props.onEdit({ ...values, id: props.movieDetail.id }) : await props.onAdd(values);
+            console.log('asd')
+            //props.onCloseModal();
         }
     });
 
@@ -100,11 +124,13 @@ const AddMovieModal = React.forwardRef((props, ref) => {
                     </Select>
                 </FormControl>
             </div>
+            {formik.errors.genres ? <div className="error">{formik.errors.genres}</div> : null}
 
             <div>
                 <TextField label="Overview" id="overview" name="overview" type="text"
                     multiline rows={3} rowsMax={10} onChange={formik.handleChange} value={formik.values.overview} />
             </div>
+            {formik.errors.overview ? <div className="error">{formik.errors.overview}</div> : null}
 
             <div>
                 <TextField label="Runtime" id="runtime" name="runtime" type="number"
@@ -113,7 +139,8 @@ const AddMovieModal = React.forwardRef((props, ref) => {
             {formik.errors.runtime ? <div className="error">{formik.errors.runtime}</div> : null}
 
             <div>
-                <Button variant="contained" color="primary" className="AddMovieFormButtons" type="submit">Submit</Button>
+                <Button variant="contained" color="primary" className="AddMovieFormButtons" type="submit"
+                    onClick={() => setSubmitted(true)}>Submit</Button>
                 <Button variant="contained" className="AddMovieFormButtons">Reset</Button>
             </div>
         </form>

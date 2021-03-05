@@ -4,14 +4,15 @@ import SearchIcon from '@material-ui/icons/Search';
 import './MovieDetail.scss';
 import * as actionTypes from '../store/actions';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { selectMovie } from '../store/actionCreator';
 
 const MovieDetail = props => {
+    const history = useHistory();
 
     useEffect(() => {
         if (!props.movie) {
-            props.onGetDetailedMovie(props.match.params.id);
+            props.onGetDetailedMovie(props.match.params.id, history);
         }
     }, [])
 
@@ -53,7 +54,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onDeselectMovie: () => dispatch({ type: actionTypes.DESELECT_MOVIE }),
-        onGetDetailedMovie: id => dispatch(selectMovie(id))
+        onGetDetailedMovie: (id, history) => dispatch(selectMovie(id, history))
     }
 };
 

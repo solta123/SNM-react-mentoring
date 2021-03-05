@@ -5,6 +5,8 @@
 .title {
   flex-grow: 1;
   text-align: left;
+  color: white;
+  text-decoration: none;
 }
 
 .AddMovieModal {

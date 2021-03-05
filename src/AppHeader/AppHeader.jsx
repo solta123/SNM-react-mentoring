@@ -8,6 +8,7 @@ import AddIcon from '@material-ui/icons/Add';
 import AddMovieModal from '../AddMovieModal/AddMovieModal';
 import Modal from '@material-ui/core/Modal';
 import { DialogContent } from '@material-ui/core';
+import { NavLink } from 'react-router-dom';
 
 const AppHeader = () => {
   const [open, setOpen] = React.useState(false);
@@ -16,9 +17,11 @@ const AppHeader = () => {
     <div className="root">
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" className="title">
-            <b>netflix</b>Roulette
-          </Typography>
+          <NavLink to="/" className="title">
+            <Typography variant="h6">
+              <b>netflix</b>Roulette
+            </Typography>
+          </NavLink>
           <Button color="inherit" variant="outlined" onClick={() => setOpen(true)}>
             <AddIcon></AddIcon>Add movie
           </Button>

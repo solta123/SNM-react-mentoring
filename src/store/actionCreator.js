@@ -5,7 +5,7 @@ import { store } from '../index';
 export const getMovies = (param = null) => {
     const state = param ? param : store.getState().movie;
     return async (dispatch) => {
-        const result = await query(state) 
+        const result = await query(state)
         dispatch(dispatchGetMovies(result.data.data));
     };
 };
@@ -19,7 +19,7 @@ export const dispatchGetMovies = movies => {
 
 export const addMovie = movie => {
     return dispatch => {
-        axios.post('http://localhost:4000/movies',movie).then((res) => {
+        axios.post('http://localhost:4000/movies', movie).then((res) => {
             dispatch(getMovies());
         }, err => {
             console.log(err);
@@ -61,10 +61,12 @@ export const sortMovies = sortBy => {
     };
 };
 
-export const selectMovie = id => {
+export const selectMovie = (id, history) => {
     return dispatch => {
         axios.get('http://localhost:4000/movies/' + id).then(result => {
             dispatch({ type: actionTypes.SELECT_MOVIE, movie: result.data })
+        }, () => {
+            history.push('/not-found');
         });
     };
 };
