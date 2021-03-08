@@ -67,9 +67,7 @@ const AddMovieModal = React.forwardRef((props, ref) => {
         },
         validate,
         onSubmit: async values => {
-            props.movieDetail ? await props.onEdit({ ...values, id: props.movieDetail.id }) : await props.onAdd(values);
-            console.log('asd')
-            //props.onCloseModal();
+            props.movieDetail ? props.onEdit({ ...values, id: props.movieDetail.id }) : props.onAdd(values);
         }
     });
 

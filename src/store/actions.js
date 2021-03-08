@@ -7,3 +7,5 @@ export const GENRE_FILTER = 'GENRE_FILTER';
 export const SORT = 'SORT';
 export const GET = 'GET';
 export const SEARCH = 'SEARCH';
+export const ERROR = 'ERROR';
+export const MODAL = 'MODAL'

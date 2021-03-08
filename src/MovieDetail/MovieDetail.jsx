@@ -14,13 +14,18 @@ const MovieDetail = props => {
         if (!props.movie) {
             props.onGetDetailedMovie(props.match.params.id, history);
         }
-    }, [])
+    }, []);
+
+    const handleDeselect = () => {
+        history.goBack();
+        props.onDeselectMovie();
+    }
 
     return <Paper className="MovieDetail">
         {!props.movie ? <i>Loading...</i> : (
             <div>
                 <Link to="/">
-                    <SearchIcon onClick={() => props.onDeselectMovie()} />
+                    <SearchIcon onClick={handleDeselect} />
                 </Link>
                 <Grid container spacing={3}>
                     <Grid item xs={3}>

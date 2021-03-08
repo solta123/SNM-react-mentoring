@@ -1,6 +1,6 @@
 const formatDate = (date) => {
     return date.getFullYear() + '-' + (date.getMonth() + 1 > 9 ? '' : '0')
-        + (date.getMonth() + 1) + '-' + date.getDate()
+        + (date.getMonth() + 1) + '-' + (date.getDate() < 10 ? '0' : '') + date.getDate();
 }
 
 export const getEmptyMovie = () => {
@@ -9,7 +9,7 @@ export const getEmptyMovie = () => {
         release_date: formatDate(new Date()),
         genres: [],
         poster_path: '',
-        runtime: 120,
+        runtime: 0,
         overview: ''
     };
 };
