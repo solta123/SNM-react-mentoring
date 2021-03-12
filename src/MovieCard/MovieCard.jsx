@@ -7,30 +7,23 @@ import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
 import { IconButton, Menu, MenuItem, Modal, DialogContent } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import AddMovieModal from '../AddMovieModal/AddMovieModal';
 import DeleteConfirmModal from '../DeleteConfirmModal/DeleteConfirmModal';
 import { connect } from 'react-redux';
 import { deleteMovie, selectMovie } from '../store/actionCreator';
 import noImage from '../resources/no-image.png';
 import { NavLink } from 'react-router-dom';
-
-require('../resources/no-image.png');
+import * as actionTypes from '../store/actions';
 
 const MovieCard = (props) => {
   const [menu, setMenu] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
   const [deletion, setDeletion] = React.useState(false);
 
   const movieDetail = props.movie;
 
   const handleOpenEditModal = () => {
-    setOpen(true);
+    props.handleModal(true, movieDetail);
     setMenu(null);
   }
-
-  const handleCloseEditModal = () => {
-    setOpen(false);
-  };
 
   const handleOpenDeletionModal = () => {
     setDeletion(true);
@@ -93,11 +86,6 @@ const MovieCard = (props) => {
           </CardContent>
         </Card>
       </NavLink>
-      <Modal open={open} onClose={handleCloseEditModal} className="AddMovieModal">
-        <DialogContent>
-          <AddMovieModal movieDetail={movieDetail} onCloseModal={handleCloseEditModal} />
-        </DialogContent>
-      </Modal>
       <Modal open={deletion} onClose={closeDeletionModal} className="DeleteConfirmModal">
         <DialogContent>
           <DeleteConfirmModal type={'movie'} itemName={movieDetail.title} onClose={closeDeletionModal} onConfirm={confirmDeletion} />
@@ -114,11 +102,18 @@ MovieCard.propTypes = {
   year: PropTypes.string
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
   return {
-    onSelectMovie: (id) => dispatch(selectMovie(id)),
-    onDelete: (id) => dispatch(deleteMovie(id))
+    isAddModalOpen: state.movie.isAddModalOpen
   }
 }
 
-export default connect(null, mapDispatchToProps)(MovieCard);
+const mapDispatchToProps = dispatch => {
+  return {
+    onSelectMovie: (id) => dispatch(selectMovie(id)),
+    onDelete: (id) => dispatch(deleteMovie(id)),
+    handleModal: (value, movie = null) => dispatch({ type: actionTypes.MODAL, value: value, movie: movie })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieCard);

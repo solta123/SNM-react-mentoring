@@ -27,7 +27,7 @@ const AppHeader = props => {
           <Button color="inherit" variant="outlined" onClick={() => props.handleModal(true)}>
             <AddIcon></AddIcon>Add movie
           </Button>
-          <Modal open={props.isAddModalOpen} className="AddMovieModal" onClose={() => props.handleModal(false)}>
+          <Modal open={props.isAddModalOpen} className="AddMovieModal">
             <DialogContent>
               <AddMovieModal onCloseModal={() => props.handleModal(false)} />
             </DialogContent>

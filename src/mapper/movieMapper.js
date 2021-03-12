@@ -22,6 +22,8 @@ export const mapMovie = (movie) => {
         revenue: movie.revenue || 99999,
         vote_average: movie.vote_average || 4.5,
         vote_count: movie.vote_count || 400,
-        tagline: movie.tagline || "TODO - not in the form"
+        tagline: movie.tagline || "TODO - not in the form",
+        runtime: movie.runtime || 0,
+        poster_path: movie.poster_path ? movie.poster_path : ''
     };
 };

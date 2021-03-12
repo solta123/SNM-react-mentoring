@@ -17,7 +17,7 @@ const MovieDetail = props => {
     }, []);
 
     const handleDeselect = () => {
-        history.goBack();
+        history.push(props.search ? { pathname: '/search', search: '?title=' + props.search } : '/');
         props.onDeselectMovie();
     }
 
@@ -52,7 +52,8 @@ const MovieDetail = props => {
 
 const mapStateToProps = state => {
     return {
-        movie: state.movie.selectedMovie
+        movie: state.movie.selectedMovie,
+        search: state.movie.search
     }
 };
 

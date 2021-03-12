@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions';
+import { mapMovie } from '../../mapper/movieMapper';
 
 export const initialState = {
     selectedMovie: null,
@@ -7,7 +8,8 @@ export const initialState = {
     selectedGenre: 'all',
     sortBy: 'release_date',
     search: window.location.search ? new URLSearchParams(window.location.search).get('title') : '',
-    isAddModalOpen: false
+    isAddModalOpen: false,
+    editableMovie: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -15,7 +17,7 @@ const reducer = (state = initialState, action) => {
 
     switch (action.type) {
         case actionTypes.SELECT_MOVIE:
-            newState.selectedMovie = action.movie;
+            newState.selectedMovie = mapMovie(action.movie);
             break;
         case actionTypes.DESELECT_MOVIE:
             newState.selectedMovie = null;
@@ -41,12 +43,11 @@ const reducer = (state = initialState, action) => {
             newState.search = window.location.search ? new URLSearchParams(window.location.search).get('title') : '';
             break;
         case actionTypes.MODAL:
-            console.log(action.value)
+            newState.editableMovie = action.value ? action.movie : null;
             newState.isAddModalOpen = action.value;
             break;
         default: break;
     }
-    console.log(newState)
     return newState;
 }
 

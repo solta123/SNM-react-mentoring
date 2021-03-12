@@ -13,7 +13,7 @@ import { useFormik } from 'formik';
 import { connect } from 'react-redux';
 import { genres } from '../common/genres';
 import { addMovie, editMovie } from '../store/actionCreator';
-import { getEmptyMovie } from '../mapper/movieMapper';
+import { getEmptyMovie, mapMovie } from '../mapper/movieMapper';
 
 const AddMovieModal = React.forwardRef((props, ref) => {
     const [submitted, setSubmitted] = useState(false);
@@ -63,7 +63,7 @@ const AddMovieModal = React.forwardRef((props, ref) => {
 
     const formik = useFormik({
         initialValues: {
-            ...props.movieDetail || getEmptyMovie(),
+            ...props.movieDetail ? mapMovie({ ...props.movieDetail }) : getEmptyMovie(),
         },
         validate,
         onSubmit: async values => {
@@ -132,11 +132,17 @@ const AddMovieModal = React.forwardRef((props, ref) => {
     </Paper>
 });
 
+const mapPropsToState = state => {
+    return {
+        movieDetail: state.movie.editableMovie
+    };
+};
+
 const mapDispatchToProps = dispatch => {
     return {
         onEdit: (movie) => dispatch(editMovie(movie)),
         onAdd: (movie) => dispatch(addMovie(movie))
-    }
-}
+    };
+};
 
-export default connect(null, mapDispatchToProps)(AddMovieModal);
+export default connect(mapPropsToState, mapDispatchToProps)(AddMovieModal);

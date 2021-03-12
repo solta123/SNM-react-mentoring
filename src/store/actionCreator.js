@@ -6,7 +6,6 @@ import { mapMovie } from '../mapper/movieMapper';
 export const getMovies = (param = null) => {
     const state = param ? param : store.getState().movie;
     return async (dispatch) => {
-        console.log(state)
         const result = await query(state);
         dispatch(dispatchGetMovies(result.data.data));
     };
@@ -38,8 +37,6 @@ export const editMovie = movie => {
     return dispatch => {
         axios.put('http://localhost:4000/movies', mappedMovie).then(() => {
             dispatch({ type: actionTypes.MODAL, value: false });
-            console.log('na?')
-
             dispatch(getMovies());
         }, error => {
             console.log(error);
