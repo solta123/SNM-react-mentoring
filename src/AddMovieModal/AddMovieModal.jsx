@@ -1,5 +1,5 @@
 import './AddMovieModal.css';
-import React from 'react';
+import React, { useState } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import { TextField } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
@@ -13,52 +13,61 @@ import { useFormik } from 'formik';
 import { connect } from 'react-redux';
 import { genres } from '../common/genres';
 import { addMovie, editMovie } from '../store/actionCreator';
+import { getEmptyMovie, mapMovie } from '../mapper/movieMapper';
 
 const AddMovieModal = React.forwardRef((props, ref) => {
-    const formatDate = (date) => {
-        return date.getFullYear() + '-' + (date.getMonth() + 1 > 9 ? '' : '0')
-            + (date.getMonth() + 1) + '-' + date.getDate()
-    }
+    const [submitted, setSubmitted] = useState(false);
 
     const validate = values => {
-        const errors = {};
+        let errors = {};
 
-        if (!values.title) {
-            errors.title = 'Required title';
+        if (submitted) {
+
+            if (!values.title) {
+                errors.title = submitted ? 'Required title' : '';
+            }
+
+            if (!values.release_date) {
+                errors.release_date = submitted ? 'Required release date' : '';
+            }
+
+            if (!values.poster_path) {
+                errors.poster_path = submitted ? 'Required to add a link to an image' : '';
+            }
+
+            if (!values.genres.length) {
+                errors.genres = submitted ? 'Please add at least one genre' : '';
+            }
+
+            if (!values.overview) {
+                errors.overview = submitted ? 'Required overview' : '';
+            }
+
+            if ((!values.runtime && values.runtime !== 0) || values.runtime < 0) {
+                errors.runtime = submitted ? 'Hmm, this seems a little short...' : '';
+            }
+
+        } else {
+            errors = {
+                title: '',
+                release_date: '',
+                poster_path: '',
+                genres: '',
+                overview: '',
+                runtime: ''
+            }
         }
 
-        if (!values.release_date) {
-            errors.release_date = 'Required release date';
-        }
-
-        if (!values.poster_path) {
-            errors.poster_path = 'Required to add a link to an image';
-        }
-
-        if ((!values.runtime && values.runtime !== 0) || values.runtime < 0) {
-            errors.runtime = 'Hmm, this seems a little short...';
-        }
         return errors;
     };
 
     const formik = useFormik({
         initialValues: {
-            title: props.movieDetail?.title ? props.movieDetail.title : '',
-            release_date: props.movieDetail?.release_date ? props.movieDetail.release_date : formatDate(new Date()),
-            genres: props.movieDetail?.genres ? [...props.movieDetail.genres] : [],
-            poster_path: props.movieDetail?.poster_path ? props.movieDetail.poster_path : '',
-            runtime: props.movieDetail?.runtime ? props.movieDetail.runtime : 0,
-            overview: props.movieDetail?.overview ? props.movieDetail.overview : '',
-            tagline: props.movieDetail?.tagline ? props.movieDetail.tagline : 'asd',
-            vote_average: props.movieDetail?.vote_average ? props.movieDetail.vote_average : 6.0,
-            vote_count: props.movieDetail?.vote_count ? props.movieDetail.vote_count : 0,
-            budget: props.movieDetail?.budget ? props.movieDetail.budget : 0,
-            revenue: props.movieDetail?.revenue ? props.movieDetail.revenue : 0
+            ...props.movieDetail ? mapMovie({ ...props.movieDetail }) : getEmptyMovie(),
         },
         validate,
-        onSubmit: values => {
-            props.movieDetail ? props.onEdit({...values, id: props.movieDetail.id}) : props.onAdd(values);
-            props.onCloseModal();
+        onSubmit: async values => {
+            props.movieDetail ? props.onEdit({ ...values, id: props.movieDetail.id }) : props.onAdd(values);
         }
     });
 
@@ -100,11 +109,13 @@ const AddMovieModal = React.forwardRef((props, ref) => {
                     </Select>
                 </FormControl>
             </div>
+            {formik.errors.genres ? <div className="error">{formik.errors.genres}</div> : null}
 
             <div>
                 <TextField label="Overview" id="overview" name="overview" type="text"
                     multiline rows={3} rowsMax={10} onChange={formik.handleChange} value={formik.values.overview} />
             </div>
+            {formik.errors.overview ? <div className="error">{formik.errors.overview}</div> : null}
 
             <div>
                 <TextField label="Runtime" id="runtime" name="runtime" type="number"
@@ -113,18 +124,25 @@ const AddMovieModal = React.forwardRef((props, ref) => {
             {formik.errors.runtime ? <div className="error">{formik.errors.runtime}</div> : null}
 
             <div>
-                <Button variant="contained" color="primary" className="AddMovieFormButtons" type="submit">Submit</Button>
+                <Button variant="contained" color="primary" className="AddMovieFormButtons" type="submit"
+                    onClick={() => setSubmitted(true)}>Submit</Button>
                 <Button variant="contained" className="AddMovieFormButtons">Reset</Button>
             </div>
         </form>
     </Paper>
 });
 
+const mapPropsToState = state => {
+    return {
+        movieDetail: state.movie.editableMovie
+    };
+};
+
 const mapDispatchToProps = dispatch => {
     return {
         onEdit: (movie) => dispatch(editMovie(movie)),
         onAdd: (movie) => dispatch(addMovie(movie))
-    }
-}
+    };
+};
 
-export default connect(null, mapDispatchToProps)(AddMovieModal);
+export default connect(mapPropsToState, mapDispatchToProps)(AddMovieModal);

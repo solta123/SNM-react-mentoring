@@ -1,12 +1,15 @@
 import * as actionTypes from '../actions';
+import { mapMovie } from '../../mapper/movieMapper';
 
-const initialState = {
+export const initialState = {
     selectedMovie: null,
     movies: [],
     filteredMovies: [],
     selectedGenre: 'all',
     sortBy: 'release_date',
-    search: window.location.search ? new URLSearchParams(window.location.search).get('title') : ''
+    search: window.location.search ? new URLSearchParams(window.location.search).get('title') : '',
+    isAddModalOpen: false,
+    editableMovie: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -14,35 +17,37 @@ const reducer = (state = initialState, action) => {
 
     switch (action.type) {
         case actionTypes.SELECT_MOVIE:
-            newState.selectedMovie = action.movie;
-            newState.search = '';
+            newState.selectedMovie = mapMovie(action.movie);
             break;
         case actionTypes.DESELECT_MOVIE:
             newState.selectedMovie = null;
-            newState.search = '';
             break;
         case actionTypes.GENRE_FILTER:
-            newState.selectedGenre = action.value;
+            newState.selectedGenre = action.selectedGenre;
             newState.movies = action.movies;
             newState.filteredMovies = [...action.movies];
             break;
         case actionTypes.SORT:
-            newState.sortBy = action.value;
+            newState.sortBy = action.sortBy;
             newState.movies = action.movies;
             newState.filteredMovies = [...action.movies];
             break;
         case actionTypes.SEARCH:
-            newState.search = action.value;
+            newState.search = action.search;
             newState.movies = action.movies;
             newState.filteredMovies = [...action.movies];
             break;
         case actionTypes.GET:
             newState.movies = action.movies;
             newState.filteredMovies = [...action.movies];
+            newState.search = window.location.search ? new URLSearchParams(window.location.search).get('title') : '';
+            break;
+        case actionTypes.MODAL:
+            newState.editableMovie = action.value ? action.movie : null;
+            newState.isAddModalOpen = action.value;
             break;
         default: break;
     }
-
     return newState;
 }
 

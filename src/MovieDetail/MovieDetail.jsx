@@ -4,22 +4,28 @@ import SearchIcon from '@material-ui/icons/Search';
 import './MovieDetail.scss';
 import * as actionTypes from '../store/actions';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { selectMovie } from '../store/actionCreator';
 
 const MovieDetail = props => {
+    const history = useHistory();
 
     useEffect(() => {
         if (!props.movie) {
-            props.onGetDetailedMovie(props.match.params.id);
+            props.onGetDetailedMovie(props.match.params.id, history);
         }
-    }, [])
+    }, []);
+
+    const handleDeselect = () => {
+        history.push(props.search ? { pathname: '/search', search: '?title=' + props.search } : '/');
+        props.onDeselectMovie();
+    }
 
     return <Paper className="MovieDetail">
         {!props.movie ? <i>Loading...</i> : (
             <div>
                 <Link to="/">
-                    <SearchIcon onClick={() => props.onDeselectMovie()} />
+                    <SearchIcon onClick={handleDeselect} />
                 </Link>
                 <Grid container spacing={3}>
                     <Grid item xs={3}>
@@ -46,14 +52,15 @@ const MovieDetail = props => {
 
 const mapStateToProps = state => {
     return {
-        movie: state.movie.selectedMovie
+        movie: state.movie.selectedMovie,
+        search: state.movie.search
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onDeselectMovie: () => dispatch({ type: actionTypes.DESELECT_MOVIE }),
-        onGetDetailedMovie: id => dispatch(selectMovie(id))
+        onGetDetailedMovie: (id, history) => dispatch(selectMovie(id, history))
     }
 };
 

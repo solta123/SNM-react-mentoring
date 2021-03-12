@@ -12,7 +12,7 @@ const MoviesList = props => {
                 {props.movies?.length ?
                     props.movies.map(movie => {
                         return <MovieCard key={movie.id} movie={movie} />
-                    }) : <i className="text-center">No movies</i>
+                    }) : <i className="text-center max-width">No movies</i>
                 }
             </div>
         </div>
