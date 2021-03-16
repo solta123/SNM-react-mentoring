@@ -73,7 +73,9 @@ const MovieCard = (props) => {
               <Typography gutterBottom variant="h5" component="h4">
                 {movieDetail.title}
               </Typography>
-              <Paper variant="outlined" className="year" color="textSecondary">{movieDetail.release_date.substring(0, 4)}</Paper>
+              <Paper variant="outlined" className="year" color="textSecondary">
+                {movieDetail.release_date.substring(0, 4)}
+              </Paper>
             </div>
             <Typography variant="body2" color="textSecondary" component="p">
               {movieDetail.genres.map((genre, i) => {
@@ -88,7 +90,8 @@ const MovieCard = (props) => {
       </NavLink>
       <Modal open={deletion} onClose={closeDeletionModal} className="DeleteConfirmModal">
         <DialogContent>
-          <DeleteConfirmModal type={'movie'} itemName={movieDetail.title} onClose={closeDeletionModal} onConfirm={confirmDeletion} />
+          <DeleteConfirmModal type={'movie'} itemName={movieDetail.title}
+            onClose={closeDeletionModal} onConfirm={confirmDeletion} />
         </DialogContent>
       </Modal>
     </div>

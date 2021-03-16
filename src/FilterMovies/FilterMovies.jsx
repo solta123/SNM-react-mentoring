@@ -30,7 +30,7 @@ const FilterMovies = props => {
                     textColor="primary" variant="scrollable" scrollButtons="auto">
                     <Tab label="All" value="all" />
                     {genres.map(genre => {
-                        return <Tab key={genre} label={genre} value={genre} />
+                        return <Tab key={genre} label={genre} value={genre} id={genre} />
                     })}
                 </Tabs>
                 <Divider orientation="vertical" flexItem id="Divider" />
