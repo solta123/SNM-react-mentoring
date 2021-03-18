@@ -1,13 +1,15 @@
 import * as actionTypes from '../actions';
 import { mapMovie } from '../../mapper/movieMapper';
 
+export const getLocation = () => window && window.location ? window.location : '';
+
 export const initialState = {
     selectedMovie: null,
     movies: [],
     filteredMovies: [],
     selectedGenre: 'all',
     sortBy: 'release_date',
-    search: window.location.search ? new URLSearchParams(window.location.search).get('title') : '',
+    search: getLocation().search ? new URLSearchParams(getLocation().search).get('title') : '',
     isAddModalOpen: false,
     editableMovie: null
 };
@@ -40,7 +42,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GET:
             newState.movies = action.movies;
             newState.filteredMovies = [...action.movies];
-            newState.search = window.location.search ? new URLSearchParams(window.location.search).get('title') : '';
+            newState.search = getLocation().search ? new URLSearchParams(getLocation().search).get('title') : '';
             break;
         case actionTypes.MODAL:
             newState.editableMovie = action.value ? action.movie : null;
