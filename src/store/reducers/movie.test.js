@@ -1,13 +1,31 @@
 import { cleanup } from '@testing-library/react';
-import * as Reducer from './movie';
+import movieReducer, { initialState } from './movie';
 import * as ACTIONS from '../actions';
 import { getEmptyMovie, mapMovie } from '../../mapper/movieMapper';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import reducer from './movie';
 
-afterEach(cleanup)
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+
+// allows us to easily return reponses and/or success/fail for a thunk that calls a service
+const mockServiceCreator = (body, succeeds = true) => () =>
+    new Promise((resolve, reject) => {
+        setTimeout(() => (succeeds ? resolve(body) : reject(body)), 10);
+    });
 
 describe('test the reducer and actions', () => {
+    let store;
+
+    beforeEach(() => {
+        store = mockStore(initialState);
+    });
+
+    afterEach(cleanup);
+
     it('should return the initial state', () => {
-        expect(Reducer.initialState).toEqual({
+        expect(initialState).toEqual({
             selectedMovie: null,
             movies: [],
             filteredMovies: [],
@@ -20,7 +38,7 @@ describe('test the reducer and actions', () => {
     });
 
     it('should select movie', () => {
-        expect(Reducer.default(Reducer.initialState, {
+        expect(reducer(initialState, {
             type: ACTIONS.SELECT_MOVIE,
             movie: { title: '', release_date: '2018-02-18', genres: [], overview: '' }
         })).toEqual({
@@ -36,74 +54,73 @@ describe('test the reducer and actions', () => {
     });
 
     it('should deselect movie', () => {
-        expect(Reducer.default(Reducer.initialState, { type: ACTIONS.DESELECT_MOVIE }).selectedMovie)
+        expect(reducer(initialState, { type: ACTIONS.DESELECT_MOVIE }).selectedMovie)
             .toEqual(null);
     });
 
     it('should select genre', () => {
-        expect(Reducer.default(Reducer.initialState, {
+        expect(reducer(initialState, {
             type: ACTIONS.GENRE_FILTER,
             selectedGenre: 'Comedy',
             movies: [{}, {}]
         }))
             .toEqual({
-                ...Reducer.initialState, selectedGenre: 'Comedy',
+                ...initialState, selectedGenre: 'Comedy',
                 movies: [{}, {}], filteredMovies: [{}, {}]
             });
     });
 
     it('should select sort', () => {
-        expect(Reducer.default(Reducer.initialState, {
+        expect(reducer(initialState, {
             type: ACTIONS.SORT,
             sortBy: 'Name',
             movies: [{}]
         }))
             .toEqual({
-                ...Reducer.initialState, sortBy: 'Name',
+                ...initialState, sortBy: 'Name',
                 movies: [{}], filteredMovies: [{}]
             });
     });
 
     it('should search', () => {
-        expect(Reducer.default(Reducer.initialState, {
+        expect(reducer(initialState, {
             type: ACTIONS.SEARCH,
             search: 'star wars',
             movies: [{}]
         }))
             .toEqual({
-                ...Reducer.initialState, search: 'star wars',
+                ...initialState, search: 'star wars',
                 movies: [{}], filteredMovies: [{}]
             });
     });
 
     it('should get movies', () => {
-        expect(Reducer.default(Reducer.initialState, {
+        expect(reducer(initialState, {
             type: ACTIONS.GET,
             movies: [{}, {}]
         }))
             .toEqual({
-                ...Reducer.initialState, movies: [{}, {}], filteredMovies: [{}, {}]
+                ...initialState, movies: [{}, {}], filteredMovies: [{}, {}]
             });
     });
 
-    it('should open edit modal', () => {
-        expect(Reducer.default(Reducer.initialState, {
+    it('should open edit modal', async () => {
+        expect(reducer(initialState, {
             type: ACTIONS.MODAL,
             value: true,
             movie: {}
         }))
-            .toEqual({
-                ...Reducer.initialState, editableMovie: {}, isAddModalOpen: true
-            });
+            .toEqual({ ...initialState, editableMovie: {}, isAddModalOpen: true });
     });
-    
-    it('should close edit modal', () => {
-        expect(Reducer.default(Reducer.initialState, {
+
+    it('should close edit modal', async () => {
+        await store.dispatch({
             type: ACTIONS.MODAL,
             value: false
-        }))
+        });
+        expect(store.getState())
             .toEqual({
-                ...Reducer.initialState, editableMovie: null, isAddModalOpen: false
+                ...initialState, editableMovie: null, isAddModalOpen: false
             });
     });
 });

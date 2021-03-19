@@ -125,7 +125,7 @@ const AddMovieModal = React.forwardRef((props, ref) => {
 
             <div>
                 <Button variant="contained" color="primary" className="AddMovieFormButtons" type="submit"
-                    onClick={() => setSubmitted(true)}>Submit</Button>
+                    id="AddMovieSubmit" onClick={() => setSubmitted(true)}>Submit</Button>
                 <Button variant="contained" className="AddMovieFormButtons">Reset</Button>
             </div>
         </form>

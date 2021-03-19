@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import NotFound from './NotFound/NotFound';
 import Home from './Home/Home';
+import { withStore } from './store/withStoreHoc';
 
 const App = () => {
   return (
@@ -18,4 +19,4 @@ const App = () => {
   );
 }
 
-export default App;
+export default withStore(App);

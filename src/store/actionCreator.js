@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as actionTypes from './actions';
-import { store } from '../index';
+import { store } from './withStoreHoc';
 import { mapMovie } from '../mapper/movieMapper';
 
 export const getMovies = (param = null) => {

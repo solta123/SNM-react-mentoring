@@ -49,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
     "sass": "^1.32.6",
     "sass-loader": "^10.1.1"
   }
