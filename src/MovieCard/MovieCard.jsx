@@ -99,10 +99,16 @@ const MovieCard = (props) => {
 }
 
 MovieCard.propTypes = {
-  img: PropTypes.string,
-  title: PropTypes.string,
-  genre: PropTypes.array,
-  year: PropTypes.string
+  movie: {
+    id: PropTypes.string,
+    poster_path: PropTypes.string,
+    title: PropTypes.string,
+    release_date: PropTypes.string,
+    runtime: PropTypes.number
+  },
+  handleModal: PropTypes.func,
+  onDelete: PropTypes.func,
+  onSelectMovie: PropTypes.func
 }
 
 const mapStateToProps = state => {

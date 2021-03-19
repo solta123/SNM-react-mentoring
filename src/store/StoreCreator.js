@@ -6,7 +6,7 @@ const rootReducer = combineReducers({
     movie: movieReducer
   });
   
-  const middleware = store => {
+  const middleware = () => {
     return next => {
       return action => {
         const result = next(action);

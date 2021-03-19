@@ -5,6 +5,7 @@ import MovieDetail from '../MovieDetail/MovieDetail';
 import { connect } from 'react-redux';
 import { getMovies } from '../store/actionCreator';
 import MoviesList from '../MoviesList/MoviesList';
+import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router';
 
 const Home = props => {
@@ -32,6 +33,10 @@ const Home = props => {
             </footer>
         </div>
     )
+}
+
+Home.propTypes = {
+    onGetMovies: PropTypes.func
 }
 
 

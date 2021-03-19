@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { genres } from '../common/genres';
 import { addMovie, editMovie } from '../store/actionCreator';
 import { getEmptyMovie, mapMovie } from '../mapper/movieMapper';
+import PropTypes from 'prop-types';
 
 const AddMovieModal = React.forwardRef((props, ref) => {
     const [submitted, setSubmitted] = useState(false);
@@ -131,6 +132,13 @@ const AddMovieModal = React.forwardRef((props, ref) => {
         </form>
     </Paper>
 });
+
+AddMovieModal.propTypes = {
+    movieDetail: PropTypes.string,
+    onEdit: PropTypes.func,
+    onAdd: PropTypes.func,
+    onCloseModal: PropTypes.func
+}
 
 const mapPropsToState = state => {
     return {

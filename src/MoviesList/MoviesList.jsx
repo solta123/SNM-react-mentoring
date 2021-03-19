@@ -3,6 +3,7 @@ import FilterMovies from '../FilterMovies/FilterMovies';
 import MovieCard from '../MovieCard/MovieCard';
 import { connect } from 'react-redux';
 import './MoviesList.css';
+import PropTypes from 'prop-types';
 
 const MoviesList = props => {
     return (
@@ -18,6 +19,10 @@ const MoviesList = props => {
         </div>
     );
 };
+
+MoviesList.propTypes = {
+    movies: PropTypes.array
+}
 
 const mapStateToProps = state => {
     return {

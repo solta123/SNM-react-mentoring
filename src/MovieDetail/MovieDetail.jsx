@@ -5,6 +5,7 @@ import './MovieDetail.scss';
 import * as actionTypes from '../store/actions';
 import { connect } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { selectMovie } from '../store/actionCreator';
 
 const MovieDetail = props => {
@@ -49,6 +50,25 @@ const MovieDetail = props => {
         )}
     </Paper>
 };
+
+MovieDetail.propTypes = {
+    movie: {
+        title: PropTypes.string,
+        poster_path: PropTypes.string,
+        genres: PropTypes.array,
+        overview: PropTypes.string,
+        release_date: PropTypes.string,
+        runtime: PropTypes.number
+    },
+    match: {
+        params: {
+            id: PropTypes.string
+        }
+    },
+    onGetDetailedMovie: PropTypes.func,
+    search: PropTypes.string,
+    onDeselectMovie: PropTypes.func
+}
 
 const mapStateToProps = state => {
     return {

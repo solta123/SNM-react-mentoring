@@ -4,6 +4,7 @@ import { Button, TextField } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { search } from '../store/actionCreator';
 import { useHistory } from 'react-router';
+import PropTypes from 'prop-types';
 
 const Searchbar = props => {
     const history = useHistory();
@@ -28,10 +29,15 @@ const Searchbar = props => {
     );
 }
 
+Searchbar.propTypes = {
+    onSearch: PropTypes.func,
+    search: PropTypes.string
+}
+
 const mapStateToProps = state => {
     return {
         search: state.movie.search
-    };;
+    };
 }
 
 const mapDispatchToProps = dispatch => {

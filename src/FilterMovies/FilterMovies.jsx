@@ -11,6 +11,7 @@ import Divider from '@material-ui/core/Divider';
 import { genres } from '../common/genres';
 import { connect } from 'react-redux';
 import { filterGenre, sortMovies } from '../store/actionCreator';
+import PropTypes from 'prop-types';
 
 const FilterMovies = props => {
     const wrapper = React.createRef();
@@ -20,7 +21,10 @@ const FilterMovies = props => {
     };
 
     const handleSortChange = (event) => {
-        props.onSortSelect(event.target.value);
+        const text = event.target.value;
+        const type = text.startsWith('r') ? 'release_date' : 'title'
+        const sortOrder = text.endsWith('asc') ? 'asc' : 'desc';
+        props.onSortSelect(type, sortOrder);
     }
 
     return (
@@ -36,9 +40,12 @@ const FilterMovies = props => {
                 <Divider orientation="vertical" flexItem id="Divider" />
                 <FormControl ref={wrapper} id="SortButton">
                     <InputLabel id="sort-by">Sort by:</InputLabel>
-                    <Select labelId="sort-by" id="sort-by-select" value={props.sortBy} onChange={handleSortChange}>
-                        <MenuItem value={'release_date'}>Release date</MenuItem>
-                        <MenuItem value={'title'}>Name</MenuItem>
+                    <Select labelId="sort-by" id="sort-by-select" value={props.sortBy + '_' + props.sortOrder}
+                        onChange={handleSortChange}>
+                        <MenuItem value={'release_date_asc'}>Release date asc</MenuItem>
+                        <MenuItem value={'release_date_desc'}>Release date desc</MenuItem>
+                        <MenuItem value={'title_asc'}>Name asc</MenuItem>
+                        <MenuItem value={'title_desc'}>Name desc</MenuItem>
                     </Select>
                 </FormControl>
             </Toolbar>
@@ -46,17 +53,26 @@ const FilterMovies = props => {
     );
 }
 
+FilterMovies.propTypes = {
+    sortBy: PropTypes.string,
+    sortOrder: PropTypes.string,
+    selectedGenre: PropTypes.string,
+    onSortSelect: PropTypes.func,
+    onGenreClick: PropTypes.func
+}
+
 const mapStateToProps = state => {
     return {
         sortBy: state.movie.sortBy,
+        sortOrder: state.movie.sortOrder,
         selectedGenre: state.movie.selectedGenre
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onGenreClick: (genre) => dispatch(filterGenre(genre)),
-        onSortSelect: (sortBy) => dispatch(sortMovies(sortBy))
+        onGenreClick: (genre, sorting) => dispatch(filterGenre(genre, sorting)),
+        onSortSelect: (sortBy, sortOrder) => dispatch(sortMovies(sortBy, sortOrder))
     }
 }
 

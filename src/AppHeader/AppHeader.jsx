@@ -13,6 +13,7 @@ import { initialState } from '../store/reducers/movie';
 import { getMovies } from '../store/actionCreator';
 import { connect } from 'react-redux';
 import * as actionTypes from '../store/actions';
+import PropTypes from 'prop-types';
 
 const AppHeader = props => {
   return (
@@ -36,6 +37,12 @@ const AppHeader = props => {
       </AppBar>
     </div>
   );
+}
+
+AppHeader.propTypes = {
+  isAddModalOpen: PropTypes.bool,
+  handleModal: PropTypes.func,
+  getMovies: PropTypes.func
 }
 
 const mapStateToProps = state => {

@@ -1,5 +1,5 @@
 import { cleanup } from '@testing-library/react';
-import movieReducer, { initialState } from './movie';
+import { initialState } from './movie';
 import * as ACTIONS from '../actions';
 import { getEmptyMovie, mapMovie } from '../../mapper/movieMapper';
 import configureMockStore from 'redux-mock-store';
@@ -8,12 +8,6 @@ import reducer from './movie';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-
-// allows us to easily return reponses and/or success/fail for a thunk that calls a service
-const mockServiceCreator = (body, succeeds = true) => () =>
-    new Promise((resolve, reject) => {
-        setTimeout(() => (succeeds ? resolve(body) : reject(body)), 10);
-    });
 
 describe('test the reducer and actions', () => {
     let store;
@@ -33,7 +27,8 @@ describe('test the reducer and actions', () => {
             sortBy: 'release_date',
             search: '',
             isAddModalOpen: false,
-            editableMovie: null
+            editableMovie: null,
+            sortOrder: 'desc'
         });
     });
 
@@ -47,6 +42,7 @@ describe('test the reducer and actions', () => {
             filteredMovies: [],
             selectedGenre: 'all',
             sortBy: 'release_date',
+            sortOrder: 'desc',
             search: '',
             isAddModalOpen: false,
             editableMovie: null
@@ -73,11 +69,12 @@ describe('test the reducer and actions', () => {
     it('should select sort', () => {
         expect(reducer(initialState, {
             type: ACTIONS.SORT,
-            sortBy: 'Name',
+            sortBy: 'title',
+            sortOrder: 'asc',
             movies: [{}]
         }))
             .toEqual({
-                ...initialState, sortBy: 'Name',
+                ...initialState, sortBy: 'title', sortOrder: 'asc',
                 movies: [{}], filteredMovies: [{}]
             });
     });

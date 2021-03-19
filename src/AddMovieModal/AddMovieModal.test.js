@@ -1,5 +1,5 @@
 import React from "react";
-import { mount } from "enzyme";
+import { mount, shallow } from "enzyme";
 import AddMovieModal from './AddMovieModal';
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from 'redux';
@@ -20,7 +20,7 @@ describe("AddMovieModal test", () => {
         );
 
         ref = React.createRef();
-        wrapper = mount(
+        wrapper = shallow(
             <Provider store={store} >
                 <AddMovieModal ref={ref} />
             </Provider>
@@ -41,7 +41,7 @@ describe("AddMovieModal test", () => {
         });
 
         const submitButton = asd.querySelector('button[id="AddMovieSubmit"]');
-            //wrapper.findByLabel('#AddMovieSubmit').length;
+        //wrapper.findByLabel('#AddMovieSubmit').length;
         // console.log(submitButton)
         await submitButton.dispatchEvent(new MouseEvent('click'));
 

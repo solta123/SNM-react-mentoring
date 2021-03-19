@@ -7,6 +7,7 @@ export const initialState = {
     filteredMovies: [],
     selectedGenre: 'all',
     sortBy: 'release_date',
+    sortOrder: 'desc',
     search: window.location.search ? new URLSearchParams(window.location.search).get('title') : '',
     isAddModalOpen: false,
     editableMovie: null
@@ -29,6 +30,7 @@ const reducer = (state = initialState, action) => {
             break;
         case actionTypes.SORT:
             newState.sortBy = action.sortBy;
+            newState.sortOrder = action.sortOrder;
             newState.movies = action.movies;
             newState.filteredMovies = [...action.movies];
             break;
