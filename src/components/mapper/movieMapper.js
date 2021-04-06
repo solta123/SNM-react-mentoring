@@ -1,4 +1,4 @@
-const formatDate = (date) => {
+export const formatDate = (date) => {
     return date.getFullYear() + '-' + (date.getMonth() + 1 > 9 ? '' : '0')
         + (date.getMonth() + 1) + '-' + (date.getDate() < 10 ? '0' : '') + date.getDate();
 }
@@ -24,6 +24,6 @@ export const mapMovie = (movie) => {
         vote_count: movie.vote_count || 400,
         tagline: movie.tagline || "TODO - not in the form",
         runtime: movie.runtime || 0,
-        poster_path: movie.poster_path ? movie.poster_path : ''
+        poster_path: movie.poster_path || ''
     };
 };

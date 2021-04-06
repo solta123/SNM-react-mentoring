@@ -1,9 +1,11 @@
 import React from "react";
-import { mount, shallow } from "enzyme";
+import { mount } from "enzyme";
 import AddMovieModal from './AddMovieModal';
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from 'redux';
 import movieReducer from '../store/reducers/movie';
+import validate from "./validate";
+import renderer from 'react-test-renderer';
 
 const testMovie = {
     title: 'title1',
@@ -31,7 +33,7 @@ describe("AddMovieModal test", () => {
             <Provider store={store} >
                 <AddMovieModal ref={ref} />
             </Provider>
-        )
+        );
     });
 
     afterEach(() => {
@@ -68,6 +70,7 @@ describe("AddMovieModal test", () => {
 
         wrapper.find('button#AddMovieSubmit').simulate('click');
         expect(wrapper.find('div.error').exists()).toBeFalsy();
+        expect(renderer.create(wrapper.text()).toJSON()).toMatchSnapshot();
     });
 
     it('should fill inputs with data when editing', () => {
@@ -91,41 +94,36 @@ describe("AddMovieModal test", () => {
         expect(wrapper.find('div.error').exists()).toBe(false);
     });
 
-    fit('should call onAdd when submitting new movie', () => {
-        const asd = {
-            onAdd: jest.fn(),
-            onEdit: jest.fn(),
-            ref: ref
-        }
-        const component = mount(
-            <Provider store={store}>
-                <AddMovieModal {...asd} />
-            </Provider>
-        );
-        // addMovieModal.setProps({ref: ref, onAdd: onAdd})
-        console.log(component)
+    it('should validate the form and set errors', () => {
+        const errors = validate({ genres: [] }, true);
+        expect(errors).toEqual({
+            title: 'Required title',
+            release_date: 'Required release date',
+            poster_path: 'Required to add a link to an image',
+            genres: 'Please add at least one genre',
+            overview: 'Required overview',
+            runtime: 'Hmm, this seems a little short...'
+        });
+        const errors2 = validate({ genres: [], runtime: -2 }, true);
+        expect(errors2).toEqual({
+            title: 'Required title',
+            release_date: 'Required release date',
+            poster_path: 'Required to add a link to an image',
+            genres: 'Please add at least one genre',
+            overview: 'Required overview',
+            runtime: 'Hmm, this seems a little short...'
+        });
+    });
 
-        component.find('input#title').simulate('keydown', { key: 'a' });
-        component.find('input#poster_path').simulate('keydown', { key: 'a' });
-        component.find('textarea#overview').simulate('keydown', { key: 'a' });
-        component.find('input#release_date')
-            .simulate('keydown', { key: '2' })
-            .simulate('keydown', { key: '0' })
-            .simulate('keydown', { key: '0' })
-            .simulate('keydown', { key: '0' })
-            .simulate('keydown', { key: '-' })
-            .simulate('keydown', { key: '0' })
-            .simulate('keydown', { key: '1' })
-            .simulate('keydown', { key: '-' })
-            .simulate('keydown', { key: '0' })
-            .simulate('keydown', { key: '1' });
-        component.find('input#runtime').simulate('keydown', { key: '9' });
-        component.find('div#genres').simulate('change', { target: { value: ['Action'] } });
-
-        component.find('button#AddMovieSubmit').simulate('click');
-        // component.instance().onAdd();
-
-        expect(asd.onEdit).toBeCalled();
-        expect(asd.onAdd).toBeCalled();
+    it('should not validate when it is not submitted', () => {
+        const errors = validate({}, false);
+        expect(errors).toEqual({
+            title: '',
+            release_date: '',
+            poster_path: '',
+            genres: '',
+            overview: '',
+            runtime: ''
+        });
     });
 });

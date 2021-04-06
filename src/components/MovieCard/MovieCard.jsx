@@ -10,7 +10,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DeleteConfirmModal from '../DeleteConfirmModal/DeleteConfirmModal';
 import { connect } from 'react-redux';
 import { deleteMovie, selectMovie } from '../store/actionCreator';
-import noImage from '../resources/no-image.png';
+import noImage from '../../resources/no-image.png';
 import { NavLink } from 'react-router-dom';
 import * as actionTypes from '../store/actions';
 
@@ -70,14 +70,14 @@ const MovieCard = (props) => {
           </div>
           <CardContent className="details" >
             <div>
-              <Typography gutterBottom variant="h5" component="h4">
+              <Typography gutterBottom variant="h5" component="h4" className="movie-title">
                 {movieDetail.title}
               </Typography>
               <Paper variant="outlined" className="year" color="textSecondary">
                 {movieDetail.release_date.substring(0, 4)}
               </Paper>
             </div>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography variant="body2" color="textSecondary" component="p" className="genres">
               {movieDetail.genres.map((genre, i) => {
                 if (i >= movieDetail.genres.length - 1) {
                   return <span key={genre}>{genre}</span>

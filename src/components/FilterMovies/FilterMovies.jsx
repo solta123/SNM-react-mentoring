@@ -32,7 +32,7 @@ const FilterMovies = props => {
             <Toolbar>
                 <Tabs value={props.selectedGenre} onChange={handleChange} indicatorColor="primary"
                     textColor="primary" variant="scrollable" scrollButtons="auto">
-                    <Tab label="All" value="all" />
+                    <Tab label="All" value="all" id="All" />
                     {genres.map(genre => {
                         return <Tab key={genre} label={genre} value={genre} id={genre} />
                     })}
@@ -42,10 +42,10 @@ const FilterMovies = props => {
                     <InputLabel id="sort-by">Sort by:</InputLabel>
                     <Select labelId="sort-by" id="sort-by-select" value={props.sortBy + '_' + props.sortOrder}
                         onChange={handleSortChange}>
-                        <MenuItem value={'release_date_asc'}>Release date asc</MenuItem>
-                        <MenuItem value={'release_date_desc'}>Release date desc</MenuItem>
-                        <MenuItem value={'title_asc'}>Name asc</MenuItem>
-                        <MenuItem value={'title_desc'}>Name desc</MenuItem>
+                        <MenuItem id="release_date_asc" value={'release_date_asc'}>Release date asc</MenuItem>
+                        <MenuItem id="release_date_desc" value={'release_date_desc'}>Release date desc</MenuItem>
+                        <MenuItem id="title_asc" value={'title_asc'}>Name asc</MenuItem>
+                        <MenuItem id="title_desc" value={'title_desc'}>Name desc</MenuItem>
                     </Select>
                 </FormControl>
             </Toolbar>

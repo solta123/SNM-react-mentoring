@@ -14,59 +14,17 @@ import { connect } from 'react-redux';
 import { genres } from '../common/genres';
 import { addMovie, editMovie } from '../store/actionCreator';
 import { getEmptyMovie, mapMovie } from '../mapper/movieMapper';
+import validate from './validate';
 import PropTypes from 'prop-types';
 
 const AddMovieModal = React.forwardRef((props, ref) => {
     const [submitted, setSubmitted] = useState(false);
 
-    const validate = values => {
-        let errors = {};
-
-        if (submitted) {
-
-            if (!values.title) {
-                errors.title = submitted ? 'Required title' : '';
-            }
-
-            if (!values.release_date) {
-                errors.release_date = submitted ? 'Required release date' : '';
-            }
-
-            if (!values.poster_path) {
-                errors.poster_path = submitted ? 'Required to add a link to an image' : '';
-            }
-
-            if (!values.genres.length) {
-                errors.genres = submitted ? 'Please add at least one genre' : '';
-            }
-
-            if (!values.overview) {
-                errors.overview = submitted ? 'Required overview' : '';
-            }
-
-            if ((!values.runtime && values.runtime !== 0) || values.runtime < 0) {
-                errors.runtime = submitted ? 'Hmm, this seems a little short...' : '';
-            }
-
-        } else {
-            errors = {
-                title: '',
-                release_date: '',
-                poster_path: '',
-                genres: '',
-                overview: '',
-                runtime: ''
-            }
-        }
-
-        return errors;
-    };
-
     const formik = useFormik({
         initialValues: {
             ...props.movieDetail ? mapMovie({ ...props.movieDetail }) : getEmptyMovie(),
         },
-        validate,
+        validate: values => validate(values, submitted),
         onSubmit: async values => {
             props.movieDetail ? props.onEdit({ ...values, id: props.movieDetail.id }) : props.onAdd(values);
         }

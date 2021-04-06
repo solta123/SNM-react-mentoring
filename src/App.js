@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import ErrorBoundary from './common/ErrorBoundrary/ErrorBoundary';
+import ErrorBoundary from './components/common/ErrorBoundrary/ErrorBoundary';
 import { Route, Switch } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
-import NotFound from './NotFound/NotFound';
-import Home from './Home/Home';
-import { withStore } from './store/withStoreHoc';
+import NotFound from './components/NotFound/NotFound';
+import Home from './components/Home/Home';
+import { withStore } from './components/store/withStoreHoc';
 
 const App = () => {
   return (
