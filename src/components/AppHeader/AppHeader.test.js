@@ -1,29 +1,75 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router';
 import renderer from 'react-test-renderer';
+import AppHeader from './AppHeader';
+import { I18nextProvider } from "react-i18next";
+import i18n from "i18next";
+import { createStore, combineReducers } from 'redux';
+import { mount } from "enzyme";
+import movieReducer from '../store/reducers/movie';
+import common_hu from "../../translations/hu/common.json";
+import common_en from "../../translations/en/common.json";
 
-it('renders correctly', () => {
-    const tree = renderer
-        .create(<div class="root">
-            <header class="MuiPaper-root MuiAppBar-root MuiAppBar-positionStatic MuiAppBar-colorPrimary MuiPaper-elevation4">
-                <div class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters">
-                    <a aria-current="page" class="title active" href="/">
-                        <h6 class="MuiTypography-root MuiTypography-h6">
-                            <b>netflix</b>Roulette
-                        </h6>
-                    </a>
-                    <button class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-colorInherit"
-                        tabindex="0" type="button">
-                        <span class="MuiButton-label">
-                            <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
-                            </svg>
-                            Add movie
-                        </span>
-                        <span class="MuiTouchRipple-root"></span>
-                    </button>
-                </div>
-            </header>
-        </div>)
-        .toJSON();
-    expect(tree).toMatchSnapshot();
+describe('AppHeader', () => {
+    let wrapper;
+    let store;
+
+    beforeEach(() => {
+        store = createStore(
+            combineReducers({
+                movie: movieReducer
+            })
+        );
+        i18n.init({
+            interpolation: { escapeValue: false },
+            lng: 'en',
+            resources: {
+              en: {
+                common: common_en
+              },
+              hu: {
+                common: common_hu
+              },
+            },
+          });
+        wrapper = mount(
+            <Suspense fallback="loading">
+                <I18nextProvider i18n={i18n}>
+                    <MemoryRouter>
+                        <Provider store={store}>
+                            <AppHeader />
+                        </Provider>
+                    </MemoryRouter>
+                </I18nextProvider>
+            </Suspense>
+        );
+    });
+
+    it('should match snapshot', () => {
+        const tree = renderer.create(
+            <Suspense fallback="loading">
+                <I18nextProvider i18n={i18n}>
+                    <MemoryRouter>
+                        <Provider store={store}>
+                            <AppHeader />
+                        </Provider>
+                    </MemoryRouter>
+                </I18nextProvider>
+            </Suspense>
+        ).toJSON();
+        expect(tree).toMatchSnapshot();
+    });
+
+    it('should open add movie modal', () => {
+        wrapper.find('button#AddMovieButton').simulate('click');
+        expect(store.getState().movie.isAddModalOpen).toEqual(true);
+        expect(store.getState().movie.editableMovie).toBeFalsy();
+    });
+
+    // it('should change language', () => {
+    //     wrapper.find('div#lang-select').simulate('click');
+    //     wrapper.find('li#hu').simulate('click');
+    //     expect(store.getState().movie.lang).toEqual('hu');
+    // });
 });

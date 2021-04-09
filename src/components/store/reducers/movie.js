@@ -5,12 +5,14 @@ export const initialState = {
     selectedMovie: null,
     movies: [],
     filteredMovies: [],
-    selectedGenre: 'all',
+    selectedGenre: window.location.search.includes('selectedGenre') ?
+        new URLSearchParams(window.location.search).get('selectedGenre') : 'all',
     sortBy: 'release_date',
     sortOrder: 'desc',
-    search: window.location.search ? new URLSearchParams(window.location.search).get('title') : '',
+    search: window.location.search.includes('title') ? new URLSearchParams(window.location.search).get('title') : '',
     isAddModalOpen: false,
-    editableMovie: null
+    editableMovie: null,
+    lang: 'en'
 };
 
 const reducer = (state = initialState, action) => {
@@ -43,10 +45,15 @@ const reducer = (state = initialState, action) => {
             newState.movies = action.movies;
             newState.filteredMovies = [...action.movies];
             newState.search = window.location.search ? new URLSearchParams(window.location.search).get('title') : '';
+            newState.selectedGenre = window.location.search.includes('selectedGenre') ?
+                new URLSearchParams(window.location.search).get('selectedGenre') : 'all';
             break;
         case actionTypes.MODAL:
             newState.editableMovie = action.value ? action.movie : null;
             newState.isAddModalOpen = action.value;
+            break;
+        case actionTypes.LANG:
+            newState.lang = action.lang;
             break;
         default: break;
     }

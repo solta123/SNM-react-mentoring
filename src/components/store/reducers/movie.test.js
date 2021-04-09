@@ -28,7 +28,8 @@ describe('test the reducer and actions', () => {
             search: '',
             isAddModalOpen: false,
             editableMovie: null,
-            sortOrder: 'desc'
+            sortOrder: 'desc',
+            lang: 'en'
         });
     });
 
@@ -45,7 +46,8 @@ describe('test the reducer and actions', () => {
             sortOrder: 'desc',
             search: '',
             isAddModalOpen: false,
-            editableMovie: null
+            editableMovie: null,
+            lang: 'en'
         });
     });
 

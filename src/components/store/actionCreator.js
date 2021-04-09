@@ -55,7 +55,7 @@ export const deleteMovie = id => {
 export const filterGenre = (genre, sorting = 'asc') => {
     return dispatch => {
         dispatch(async () => {
-            const movies = await query({ ...store.getState().movie, selectedGenre: genre, sorting: sorting });
+            const movies = await query({ ...store.getState().movie, selectedGenre: genre, sorting });
             dispatch({ type: actionTypes.GENRE_FILTER, selectedGenre: genre, movies: movies.data.data });
         });
     };
@@ -64,8 +64,8 @@ export const filterGenre = (genre, sorting = 'asc') => {
 export const sortMovies = (sortBy, sortOrder) => {
     return dispatch => {
         dispatch(async () => {
-            const movies = await query({ ...store.getState().movie, sortBy: sortBy, sortOrder: sortOrder });
-            dispatch({ type: actionTypes.SORT, sortBy: sortBy, sortOrder: sortOrder, movies: movies.data.data });
+            const movies = await query({ ...store.getState().movie, sortBy, sortOrder });
+            dispatch({ type: actionTypes.SORT, sortBy, sortOrder, movies: movies.data.data });
         })
     };
 };
@@ -90,7 +90,6 @@ export const search = text => {
 }
 
 const query = async state => {
-    console.log(state.sortBy + ' ' + state.sortOrder)
     return await axios.get('http://localhost:4000/movies', {
         params: {
             sortBy: state.sortBy, sortOrder: state.sortOrder || 'asc', searchBy: 'title', search: state.search,

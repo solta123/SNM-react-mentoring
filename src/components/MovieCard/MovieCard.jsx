@@ -13,10 +13,13 @@ import { deleteMovie, selectMovie } from '../store/actionCreator';
 import noImage from '../../resources/no-image.png';
 import { NavLink } from 'react-router-dom';
 import * as actionTypes from '../store/actions';
+import { useTranslation } from "react-i18next";
 
 const MovieCard = (props) => {
   const [menu, setMenu] = React.useState(null);
   const [deletion, setDeletion] = React.useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const { t, i18n } = useTranslation('common');
 
   const movieDetail = props.movie;
 
@@ -58,33 +61,31 @@ const MovieCard = (props) => {
           <MoreVertIcon />
         </IconButton>
         <Menu anchorEl={menu} open={!!menu} onClose={() => setMenu(null)}>
-          <MenuItem onClick={handleOpenEditModal}>Edit</MenuItem>
-          <MenuItem onClick={handleOpenDeletionModal}>Delete</MenuItem>
+          <MenuItem onClick={handleOpenEditModal}>{t('edit')}</MenuItem>
+          <MenuItem onClick={handleOpenDeletionModal}>{t('delete')}</MenuItem>
         </Menu>
       </div>
       <NavLink to={'/film/' + movieDetail.id}>
-        <Card className="MovieCardRoot" onClick={() => onMovieClicked(movieDetail.id)}>
+      <Card className="MovieCardRoot" onClick={() => onMovieClicked(movieDetail.id)}>
           <div>
             <img className="media" src={movieDetail.poster_path ? movieDetail.poster_path : noImage} alt={movieDetail.title}
               onError={e => onImageLoadError(e)} />
           </div>
           <CardContent className="details" >
             <div>
-              <Typography gutterBottom variant="h5" component="h4" className="movie-title">
+              <Typography gutterBottom variant="h5" component="h4" className="MovieCardDetailsTitle">
                 {movieDetail.title}
               </Typography>
-              <Paper variant="outlined" className="year" color="textSecondary">
-                {movieDetail.release_date.substring(0, 4)}
-              </Paper>
             </div>
-            <Typography variant="body2" color="textSecondary" component="p" className="genres">
+            <Typography variant="body2" color="textSecondary" component="p" className="MovieCardDetailsGenres">
               {movieDetail.genres.map((genre, i) => {
                 if (i >= movieDetail.genres.length - 1) {
-                  return <span key={genre}>{genre}</span>
+                  return <span key={genre}>{t(genre)}</span>
                 }
-                return <span key={genre}>{genre}, </span>
+                return <span key={genre}>{t(genre)}, </span>
               })}
             </Typography>
+            <Paper variant="outlined" className="year" color="textSecondary">{movieDetail.release_date.substring(0, 4)}</Paper>
           </CardContent>
         </Card>
       </NavLink>
@@ -99,13 +100,14 @@ const MovieCard = (props) => {
 }
 
 MovieCard.propTypes = {
-  movie: {
-    id: PropTypes.string,
+  movie: PropTypes.shape({
+    id: PropTypes.number,
     poster_path: PropTypes.string,
     title: PropTypes.string,
     release_date: PropTypes.string,
-    runtime: PropTypes.number
-  },
+    runtime: PropTypes.number,
+    genres: PropTypes.array
+  }),
   handleModal: PropTypes.func,
   onDelete: PropTypes.func,
   onSelectMovie: PropTypes.func

@@ -20,7 +20,7 @@ describe('MovieCard', () => {
         );
     });
 
-    fit('should render correctly', () => {
+    it('should render correctly', () => {
         const movie = {
             title: 'title',
             id: 'movieid',
@@ -37,12 +37,12 @@ describe('MovieCard', () => {
         );
 
         expect(wrapper.find('img.media').html().includes('no-image.png')).toBeTruthy();
-        expect(wrapper.find('p.genres').text()).toBe('Action, Sci-fi');
-        expect(wrapper.find('h4.movie-title').text()).toBe('title');
+        expect(wrapper.find('p.MovieCardDetailsGenres').text()).toBe('Action, Sci-fi');
+        expect(wrapper.find('h4.MovieCardDetailsTitle').text()).toBe('title');
         expect(wrapper.find('div.year').text()).toBe('2005');
     });
 
-    fit('should render image', () => {
+    it('should render image', () => {
         const movie = {
             release_date: '2010-05-01',
             genres: ['Action'],
@@ -60,4 +60,25 @@ describe('MovieCard', () => {
         expect(wrapper.find('img.media').html().includes('no-image.png')).toBeFalsy();
         expect(wrapper.find('img.media').html().includes('img.png')).toBeTruthy();
     });
+
+    // it('should open movie details', () => {
+    //     const movie = {
+    //         title: 'title',
+    //         id: 'movieid',
+    //         release_date: '2005-02-12',
+    //         genres: ['Action', 'Sci-fi']
+    //     };
+
+    //     wrapper = mount(
+    //         <MemoryRouter>
+    //             <Provider store={store}>
+    //                 <MovieCard movie={movie} onSelectMovie={() => store.dispatch({ type: 'SELECT_MOVIE', movie })} />
+    //             </Provider>
+    //         </MemoryRouter>
+    //     );
+
+    //     wrapper.find('div.MovieCardRoot').simulate('click');
+
+    //     expect(store.getState().detailedMovie).toBeTruthy();
+    // });
 });

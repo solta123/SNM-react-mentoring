@@ -21,11 +21,45 @@
   width: 90%;
 }
 
+.MovieCardDiv .MovieCardDetailsTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.MovieCardDiv:hover .MovieCardDetailsTitle {
+  white-space: normal;
+  text-overflow: initial;
+  overflow: auto;
+  height: 100%;
+}
+
+.MovieCardDiv .MovieCardDetailsGenres {
+  width: 175px;
+  height: 40px;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.MovieCardDiv:hover .MovieCardDetailsGenres {
+  text-overflow: unset;
+  display: block;
+  width: 175px;
+  min-height: 40px;
+  height: 100%;
+}
+
 .year {
   padding: 5px;
   width: 35px;
   float: right;
   text-align: center;
+  position: absolute;
+  bottom: 18px;
+  right: 15px;
 }
 
 .MoreButtonDiv {
@@ -69,4 +103,3 @@
 .DeleteConfirmModal > div > div {
   padding: 1rem;
 }
-

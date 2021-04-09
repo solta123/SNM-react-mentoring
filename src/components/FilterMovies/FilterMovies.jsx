@@ -12,11 +12,22 @@ import { genres } from '../common/genres';
 import { connect } from 'react-redux';
 import { filterGenre, sortMovies } from '../store/actionCreator';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const FilterMovies = props => {
     const wrapper = React.createRef();
+    const history = useHistory();
+    // eslint-disable-next-line no-unused-vars
+    const { t, i18n } = useTranslation('common');
 
     const handleChange = (event, newValue) => {
+        history.push({
+            pathname: '/search',
+            search: "?" +
+                (window.location.search.includes('title') ? 'title=' + new URLSearchParams(window.location.search).get('title') + '&' : '') +
+                'selectedGenre=' + newValue
+        });
         props.onGenreClick(newValue);
     };
 
@@ -32,20 +43,20 @@ const FilterMovies = props => {
             <Toolbar>
                 <Tabs value={props.selectedGenre} onChange={handleChange} indicatorColor="primary"
                     textColor="primary" variant="scrollable" scrollButtons="auto">
-                    <Tab label="All" value="all" id="All" />
+                    <Tab label={t('all')} value="all" id="all" />
                     {genres.map(genre => {
-                        return <Tab key={genre} label={genre} value={genre} id={genre} />
+                        return <Tab key={genre} label={t(genre)} value={genre} id={genre} />
                     })}
                 </Tabs>
                 <Divider orientation="vertical" flexItem id="Divider" />
                 <FormControl ref={wrapper} id="SortButton">
-                    <InputLabel id="sort-by">Sort by:</InputLabel>
+                    <InputLabel id="sort-by">{t('sort_by')}</InputLabel>
                     <Select labelId="sort-by" id="sort-by-select" value={props.sortBy + '_' + props.sortOrder}
                         onChange={handleSortChange}>
-                        <MenuItem id="release_date_asc" value={'release_date_asc'}>Release date asc</MenuItem>
-                        <MenuItem id="release_date_desc" value={'release_date_desc'}>Release date desc</MenuItem>
-                        <MenuItem id="title_asc" value={'title_asc'}>Name asc</MenuItem>
-                        <MenuItem id="title_desc" value={'title_desc'}>Name desc</MenuItem>
+                        <MenuItem id="release_date_asc" value={'release_date_asc'}>{t('release_date_asc')}</MenuItem>
+                        <MenuItem id="release_date_desc" value={'release_date_desc'}>{t('release_date_desc')}</MenuItem>
+                        <MenuItem id="title_asc" value={'title_asc'}>{t('title_asc')}</MenuItem>
+                        <MenuItem id="title_desc" value={'title_desc'}>{t('title_desc')}</MenuItem>
                     </Select>
                 </FormControl>
             </Toolbar>

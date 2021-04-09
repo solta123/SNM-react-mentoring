@@ -16,9 +16,12 @@ import { addMovie, editMovie } from '../store/actionCreator';
 import { getEmptyMovie, mapMovie } from '../mapper/movieMapper';
 import validate from './validate';
 import PropTypes from 'prop-types';
+import { useTranslation } from "react-i18next";
 
 const AddMovieModal = React.forwardRef((props, ref) => {
     const [submitted, setSubmitted] = useState(false);
+    // eslint-disable-next-line no-unused-vars
+    const { t, i18n } = useTranslation('common');
 
     const formik = useFormik({
         initialValues: {
@@ -34,58 +37,58 @@ const AddMovieModal = React.forwardRef((props, ref) => {
         <div>
             <CloseIcon onClick={props.onCloseModal} className="closeIcon" />
             <Typography variant="h5">
-                {props.movieDetail ? <span>Edit movie</span> : <span>Add movie</span>}
+                {props.movieDetail ? <span>{t('edit_movie')}</span> : <span>{t('add_movie')}</span>}
             </Typography>
         </div>
 
         <form onSubmit={formik.handleSubmit} className="AddMovieForm">
             <div>
-                <TextField id="title" name="title" type="text" label="Title"
+                <TextField id="title" name="title" type="text" label={t('title')}
                     onChange={formik.handleChange} value={formik.values.title} />
             </div>
-            {formik.errors.title ? <div id="title-error" className="error">{formik.errors.title}</div> : null}
+            {formik.errors.title ? <div id="title-error" className="error">{t(formik.errors.title)}</div> : null}
 
             <div>
-                <TextField label="Release date" InputLabelProps={{ shrink: true }} id="release_date"
+                <TextField label={t('release_date')} InputLabelProps={{ shrink: true }} id="release_date"
                     name="release_date" type="date" onChange={formik.handleChange} value={formik.values.release_date} />
             </div>
-            {formik.errors.release_date ? <div id="release_date-error" className="error">{formik.errors.release_date}</div> : null}
+            {formik.errors.release_date ? <div id="release_date-error" className="error">{t(formik.errors.release_date)}</div> : null}
 
             <div>
-                <TextField label="Movie URL" id="poster_path" name="poster_path" type="text"
+                <TextField label={t('poster_path')} id="poster_path" name="poster_path" type="text"
                     onChange={formik.handleChange} value={formik.values.poster_path}
                 />
             </div>
-            {formik.errors.poster_path ? <div id="poster_path-error" className="error">{formik.errors.poster_path}</div> : null}
+            {formik.errors.poster_path ? <div id="poster_path-error" className="error">{t(formik.errors.poster_path)}</div> : null}
 
             <div>
                 <FormControl>
-                    <InputLabel>Genres</InputLabel>
+                    <InputLabel>{t('genres')}</InputLabel>
                     <Select id="genres" name="genres" value={formik.values.genres} onChange={formik.handleChange} multiple>
                         {genres.map(genreItem => (
-                            <MenuItem id={genreItem} key={genreItem} value={genreItem}>{genreItem}</MenuItem>
+                            <MenuItem id={genreItem} key={genreItem} value={genreItem}>{t(genreItem)}</MenuItem>
                         ))}
                     </Select>
                 </FormControl>
             </div>
-            {formik.errors.genres ? <div id="genres-error" className="error">{formik.errors.genres}</div> : null}
+            {formik.errors.genres ? <div id="genres-error" className="error">{t(formik.errors.genres)}</div> : null}
 
             <div>
-                <TextField label="Overview" id="overview" name="overview" type="text"
+                <TextField label={t('overview')} id="overview" name="overview" type="text"
                     multiline rows={3} rowsMax={10} onChange={formik.handleChange} value={formik.values.overview} />
             </div>
-            {formik.errors.overview ? <div id="overview-error" className="error">{formik.errors.overview}</div> : null}
+            {formik.errors.overview ? <div id="overview-error" className="error">{t(formik.errors.overview)}</div> : null}
 
             <div>
-                <TextField label="Runtime" id="runtime" name="runtime" type="number"
+                <TextField label={t('runtime')} id="runtime" name="runtime" type="number"
                     onChange={formik.handleChange} value={formik.values.runtime} />
             </div>
-            {formik.errors.runtime ? <div id="runtime-error" className="error">{formik.errors.runtime}</div> : null}
+            {formik.errors.runtime ? <div id="runtime-error" className="error">{t(formik.errors.runtime)}</div> : null}
 
             <div>
                 <Button variant="contained" color="primary" className="AddMovieFormButtons" type="submit"
-                    id="AddMovieSubmit" onClick={() => setSubmitted(true)}>Submit</Button>
-                <Button variant="contained" className="AddMovieFormButtons">Reset</Button>
+                    id="AddMovieSubmit" onClick={() => setSubmitted(true)}>{t('submit')}</Button>
+                <Button variant="contained" className="AddMovieFormButtons">{t('reset')}</Button>
             </div>
         </form>
     </Paper>

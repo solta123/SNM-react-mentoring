@@ -7,15 +7,23 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import AddMovieModal from '../AddMovieModal/AddMovieModal';
 import Modal from '@material-ui/core/Modal';
-import { DialogContent } from '@material-ui/core';
+import { DialogContent, Select, MenuItem, FormControl } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
 import { initialState } from '../store/reducers/movie';
 import { getMovies } from '../store/actionCreator';
 import { connect } from 'react-redux';
 import * as actionTypes from '../store/actions';
 import PropTypes from 'prop-types';
+import { useTranslation } from "react-i18next";
 
 const AppHeader = props => {
+  const { t, i18n } = useTranslation('common');
+
+  const handleLangChange = event => {
+    i18n.changeLanguage(event.target.value);
+    props.handleLang(event.target.value);
+  };
+
   return (
     <div className="root">
       <AppBar position="static">
@@ -25,9 +33,15 @@ const AppHeader = props => {
               <b>netflix</b>Roulette
             </Typography>
           </NavLink>
-          <Button color="inherit" variant="outlined" onClick={() => props.handleModal(true)}>
-            <AddIcon></AddIcon>Add movie
+          <Button id="AddMovieButton" color="inherit" variant="outlined" onClick={() => props.handleModal(true)}>
+            <AddIcon></AddIcon>{t('add_movie')}
           </Button>
+          <FormControl id="lang-button">
+            <Select id="lang-select" value={props.lang} onChange={handleLangChange}>
+              <MenuItem id="en" value="en">en</MenuItem>
+              <MenuItem id="hu" value="hu">hu</MenuItem>
+            </Select>
+          </FormControl>
           <Modal open={props.isAddModalOpen} className="AddMovieModal">
             <DialogContent>
               <AddMovieModal onCloseModal={() => props.handleModal(false)} />
@@ -42,19 +56,23 @@ const AppHeader = props => {
 AppHeader.propTypes = {
   isAddModalOpen: PropTypes.bool,
   handleModal: PropTypes.func,
-  getMovies: PropTypes.func
+  getMovies: PropTypes.func,
+  lang: PropTypes.string,
+  handleLang: PropTypes.func
 }
 
 const mapStateToProps = state => {
   return {
-    isAddModalOpen: state.movie.isAddModalOpen
+    isAddModalOpen: state.movie.isAddModalOpen,
+    lang: state.movie.lang
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     getMovies: () => dispatch(getMovies({ ...initialState, search: '' })),
-    handleModal: value => dispatch({ type: actionTypes.MODAL, value: value }),
+    handleModal: value => dispatch({ type: actionTypes.MODAL, value }),
+    handleLang: lang => dispatch({ type: actionTypes.LANG, lang })
   }
 }
 

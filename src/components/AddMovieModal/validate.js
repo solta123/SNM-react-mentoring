@@ -4,27 +4,27 @@ const validate = (values, submitted) => {
         if (submitted) {
 
             if (!values.title) {
-                errors.title = 'Required title';
+                errors.title = 'error_title';
             }
 
             if (!values.release_date) {
-                errors.release_date = 'Required release date';
+                errors.release_date = 'error_release_date';
             }
 
             if (!values.poster_path) {
-                errors.poster_path = 'Required to add a link to an image';
+                errors.poster_path = 'error_poster_path';
             }
 
             if (!values.genres.length) {
-                errors.genres = 'Please add at least one genre';
+                errors.genres = 'error_genre';
             }
 
             if (!values.overview) {
-                errors.overview = 'Required overview';
+                errors.overview = 'error_overview';
             }
 
             if ((!values.runtime && values.runtime !== 0) || values.runtime < 0) {
-                errors.runtime = 'Hmm, this seems a little short...';
+                errors.runtime = 'error_runtime';
             }
 
         } else {

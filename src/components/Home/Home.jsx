@@ -20,7 +20,7 @@ const Home = props => {
     return (
         <div className="App">
             <div className="AppContainer">
-                <AppHeader></AppHeader>
+                <AppHeader />
 
                 <Switch>
                     <Route path="/film/:id" component={MovieDetail} />

@@ -18,3 +18,10 @@
 .MuiDialogContent-root {
   padding: 0 !important;
 }
+
+#lang-button {
+  margin-left: 0.5rem;
+  border-bottom: "1px solid white";
+  background-color: white !important;
+  border-radius: 0.3rem;
+}

@@ -4,16 +4,20 @@ import MovieCard from '../MovieCard/MovieCard';
 import { connect } from 'react-redux';
 import './MoviesList.css';
 import PropTypes from 'prop-types';
+import { useTranslation } from "react-i18next";
 
 const MoviesList = props => {
+    // eslint-disable-next-line no-unused-vars
+    const { t, i18n } = useTranslation('common');
+
     return (
         <div>
-            <FilterMovies></FilterMovies>
+            <FilterMovies />
             <div className="MoviesList">
                 {props.movies?.length ?
                     props.movies.map(movie => {
                         return <MovieCard key={movie.id} movie={movie} />
-                    }) : <i className="text-center max-width">No movies</i>
+                    }) : <i className="text-center max-width">{t('no_movies')}</i>
                 }
             </div>
         </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { mount } from "enzyme";
 import AddMovieModal from './AddMovieModal';
 import { Provider } from "react-redux";
@@ -6,6 +6,10 @@ import { createStore, combineReducers } from 'redux';
 import movieReducer from '../store/reducers/movie';
 import validate from "./validate";
 import renderer from 'react-test-renderer';
+import { I18nextProvider } from "react-i18next";
+import i18n from "i18next";
+import common_hu from "../../translations/hu/common.json";
+import common_en from "../../translations/en/common.json";
 
 const testMovie = {
     title: 'title1',
@@ -29,10 +33,26 @@ describe("AddMovieModal test", () => {
             })
         );
         ref = React.createRef();
+        i18n.init({
+          interpolation: { escapeValue: false },
+          lng: 'en',
+          resources: {
+            en: {
+              common: common_en
+            },
+            hu: {
+              common: common_hu
+            },
+          },
+        });
         wrapper = mount(
-            <Provider store={store} >
-                <AddMovieModal ref={ref} />
-            </Provider>
+            <Suspense fallback="loading">
+                <I18nextProvider i18n={i18n}>
+                    <Provider store={store} >
+                        <AddMovieModal ref={ref} />
+                    </Provider>
+                </I18nextProvider>
+            </Suspense>
         );
     });
 
@@ -89,7 +109,7 @@ describe("AddMovieModal test", () => {
         component.unmount();
     });
 
-    it('should not display error messagess if not submitted', () => {
+    it('should not display error messages if not submitted', () => {
         wrapper.find('input#title').simulate('keydown', { key: 'a' });
         expect(wrapper.find('div.error').exists()).toBe(false);
     });
@@ -97,21 +117,21 @@ describe("AddMovieModal test", () => {
     it('should validate the form and set errors', () => {
         const errors = validate({ genres: [] }, true);
         expect(errors).toEqual({
-            title: 'Required title',
-            release_date: 'Required release date',
-            poster_path: 'Required to add a link to an image',
-            genres: 'Please add at least one genre',
-            overview: 'Required overview',
-            runtime: 'Hmm, this seems a little short...'
+            title: 'error_title',
+            release_date: 'error_release_date',
+            poster_path: 'error_poster_path',
+            genres: 'error_genre',
+            overview: 'error_overview',
+            runtime: 'error_runtime'
         });
         const errors2 = validate({ genres: [], runtime: -2 }, true);
         expect(errors2).toEqual({
-            title: 'Required title',
-            release_date: 'Required release date',
-            poster_path: 'Required to add a link to an image',
-            genres: 'Please add at least one genre',
-            overview: 'Required overview',
-            runtime: 'Hmm, this seems a little short...'
+            title: 'error_title',
+            release_date: 'error_release_date',
+            poster_path: 'error_poster_path',
+            genres: 'error_genre',
+            overview: 'error_overview',
+            runtime: 'error_runtime'
         });
     });
 

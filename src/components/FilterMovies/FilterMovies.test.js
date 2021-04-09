@@ -34,7 +34,7 @@ describe('FilterMovies', () => {
     });
 
     it('renders correctly', () => {
-        expect(wrapper.find('button.Mui-selected#All').exists()).toBeTruthy();
+        expect(wrapper.find('button.Mui-selected#all').exists()).toBeTruthy();
         expect(wrapper.find('input[value="release_date"]')).toBeTruthy();
     });
 

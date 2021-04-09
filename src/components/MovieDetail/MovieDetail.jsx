@@ -7,9 +7,12 @@ import { connect } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { selectMovie } from '../store/actionCreator';
+import { useTranslation } from "react-i18next";
 
 const MovieDetail = props => {
     const history = useHistory();
+    // eslint-disable-next-line no-unused-vars
+    const { t, i18n } = useTranslation('common');
 
     useEffect(() => {
         if (!props.movie) {
@@ -37,12 +40,12 @@ const MovieDetail = props => {
                         <Typography variant="subtitle1">
                             {props.movie.genres.map((genre, i) => {
                                 if (i + 1 < props.movie.genres.length) {
-                                    return genre + ', ';
+                                    return t(genre) + ', ';
                                 }
-                                return genre;
+                                return t(genre);
                             })}
                         </Typography>
-                        <Typography variant="h5">{props.movie.release_date}, {props.movie.runtime} min</Typography>
+                        <Typography variant="h5">{props.movie.release_date}, {props.movie.runtime} {t('min')}</Typography>
                         <Typography variant="subtitle1">{props.movie.overview}</Typography>
                     </Grid>
                 </Grid>
@@ -52,19 +55,19 @@ const MovieDetail = props => {
 };
 
 MovieDetail.propTypes = {
-    movie: {
+    movie: PropTypes.shape({
         title: PropTypes.string,
         poster_path: PropTypes.string,
         genres: PropTypes.array,
         overview: PropTypes.string,
         release_date: PropTypes.string,
         runtime: PropTypes.number
-    },
-    match: {
-        params: {
+    }),
+    match: PropTypes.shape({
+        params: PropTypes.shape({
             id: PropTypes.string
-        }
-    },
+        })
+    }),
     onGetDetailedMovie: PropTypes.func,
     search: PropTypes.string,
     onDeselectMovie: PropTypes.func
