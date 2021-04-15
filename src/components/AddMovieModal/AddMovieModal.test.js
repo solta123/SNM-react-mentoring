@@ -7,7 +7,7 @@ import movieReducer from '../store/reducers/movie';
 import validate from "./validate";
 import renderer from 'react-test-renderer';
 import { I18nextProvider } from "react-i18next";
-import i18n from "i18next";
+import i18next from "i18next";
 import common_hu from "../../translations/hu/common.json";
 import common_en from "../../translations/en/common.json";
 
@@ -33,23 +33,25 @@ describe("AddMovieModal test", () => {
             })
         );
         ref = React.createRef();
-        i18n.init({
-          interpolation: { escapeValue: false },
-          lng: 'en',
-          resources: {
-            en: {
-              common: common_en
+
+        i18next.init({
+            interpolation: { escapeValue: false },
+            lng: 'en',
+            resources: {
+                en: {
+                    common: common_en
+                },
+                hu: {
+                    common: common_hu
+                },
             },
-            hu: {
-              common: common_hu
-            },
-          },
         });
+
         wrapper = mount(
             <Suspense fallback="loading">
-                <I18nextProvider i18n={i18n}>
-                    <Provider store={store} >
-                        <AddMovieModal ref={ref} />
+                <I18nextProvider i18n={i18next}>
+                    <Provider store={store}>
+                        <AddMovieModal ref={ref} movieDetail={''} />
                     </Provider>
                 </I18nextProvider>
             </Suspense>

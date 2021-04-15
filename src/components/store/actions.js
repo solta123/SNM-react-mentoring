@@ -10,3 +10,6 @@ export const SEARCH = 'SEARCH';
 export const ERROR = 'ERROR';
 export const MODAL = 'MODAL'
 export const LANG = 'LANG';
+export const LIMIT = 'LIMIT';
+export const PAGE = 'PAGE';
+export const DEFAULT = 'DEFAULT';

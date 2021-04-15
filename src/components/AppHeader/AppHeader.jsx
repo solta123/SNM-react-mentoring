@@ -9,8 +9,7 @@ import AddMovieModal from '../AddMovieModal/AddMovieModal';
 import Modal from '@material-ui/core/Modal';
 import { DialogContent, Select, MenuItem, FormControl } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
-import { initialState } from '../store/reducers/movie';
-import { getMovies } from '../store/actionCreator';
+import { setToDefaultState } from '../store/actionCreator';
 import { connect } from 'react-redux';
 import * as actionTypes from '../store/actions';
 import PropTypes from 'prop-types';
@@ -70,7 +69,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getMovies: () => dispatch(getMovies({ ...initialState, search: '' })),
+    getMovies: () => dispatch(setToDefaultState()),
     handleModal: value => dispatch({ type: actionTypes.MODAL, value }),
     handleLang: lang => dispatch({ type: actionTypes.LANG, lang })
   }

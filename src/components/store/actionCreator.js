@@ -2,19 +2,27 @@ import axios from 'axios';
 import * as actionTypes from './actions';
 import { store } from './withStoreHoc';
 import { mapMovie } from '../mapper/movieMapper';
+import { initialState } from './reducers/movie';
+
+export const setToDefaultState = () => {
+    return async (dispatch) => {
+        const result = await query({ ...initialState, search: '' });
+        dispatch({ type: actionTypes.DEFAULT });
+        dispatch({ type: actionTypes.GET, movies: result.data.data, totalAmount: result.data.totalAmount });
+    }
+};
 
 export const getMovies = (param = null) => {
     const state = param ? param : store.getState().movie;
     return async (dispatch) => {
         const result = await query(state);
-        dispatch(dispatchGetMovies(result.data.data));
-    };
-};
-
-export const dispatchGetMovies = movies => {
-    return {
-        type: actionTypes.GET,
-        movies: movies
+        dispatch({
+            type: actionTypes.GET,
+            totalAmount: result.data.totalAmount,
+            limit: result.data.limit,
+            offset: result.data.offset,
+            movies: result.data.data
+        });
     };
 };
 
@@ -55,8 +63,9 @@ export const deleteMovie = id => {
 export const filterGenre = (genre, sorting = 'asc') => {
     return dispatch => {
         dispatch(async () => {
-            const movies = await query({ ...store.getState().movie, selectedGenre: genre, sorting });
-            dispatch({ type: actionTypes.GENRE_FILTER, selectedGenre: genre, movies: movies.data.data });
+            const movies = await query({ ...store.getState().movie, selectedGenre: genre, sorting, offset: 0 });
+            dispatch({ type: actionTypes.GENRE_FILTER, selectedGenre: genre });
+            dispatch({ type: actionTypes.GET, movies: movies.data.data, totalAmount: movies.data.totalAmount });
         });
     };
 };
@@ -64,9 +73,10 @@ export const filterGenre = (genre, sorting = 'asc') => {
 export const sortMovies = (sortBy, sortOrder) => {
     return dispatch => {
         dispatch(async () => {
-            const movies = await query({ ...store.getState().movie, sortBy, sortOrder });
-            dispatch({ type: actionTypes.SORT, sortBy, sortOrder, movies: movies.data.data });
-        })
+            const movies = await query({ ...store.getState().movie, sortBy, sortOrder, offset: 0 });
+            dispatch({ type: actionTypes.SORT, sortBy, sortOrder });
+            dispatch({ type: actionTypes.GET, movies: movies.data.data, totalAmount: movies.data.totalAmount });
+        });
     };
 };
 
@@ -83,17 +93,40 @@ export const selectMovie = (id, history) => {
 export const search = text => {
     return dispatch => {
         dispatch(async () => {
-            const movies = await query({ ...store.getState().movie, search: text });
-            dispatch({ type: actionTypes.SEARCH, search: text, movies: movies.data.data });
+            const movies = await query({ ...store.getState().movie, search: text, offset: 0 });
+            dispatch({ type: actionTypes.SEARCH, search: text });
+            dispatch({ type: actionTypes.GET, movies: movies.data.data, totalAmount: movies.data.totalAmount });
         });
     };
 }
+
+export const changelimit = limit => {
+    return dispatch => {
+        dispatch(async () => {
+            const movies = await query({ ...store.getState().movie, limit, offset: 0, page: 1 });
+            dispatch({ type: actionTypes.LIMIT, limit });
+            dispatch({ type: actionTypes.GET, movies: movies.data.data, totalAmount: movies.data.totalAmount })
+        });
+    }
+}
+
+export const changePage = page => {
+    return dispatch => {
+        dispatch(async () => {
+            const storeData = store.getState().movie;
+            const movies = await query({ ...storeData, offset: storeData.limit * page, page });
+            dispatch({ type: actionTypes.PAGE, page });
+            dispatch({ type: actionTypes.GET, movies: movies.data.data, totalAmount: movies.data.totalAmount })
+        });
+    };
+};
 
 const query = async state => {
     return await axios.get('http://localhost:4000/movies', {
         params: {
             sortBy: state.sortBy, sortOrder: state.sortOrder || 'asc', searchBy: 'title', search: state.search,
-            filter: state.selectedGenre && state.selectedGenre !== 'all' ? state.selectedGenre : null
+            filter: state.selectedGenre && state.selectedGenre !== 'all' ? state.selectedGenre : null,
+            limit: state.limit, offset: state.offset
         }
     });
 };

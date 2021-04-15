@@ -22,7 +22,6 @@ describe('test the reducer and actions', () => {
         expect(initialState).toEqual({
             selectedMovie: null,
             movies: [],
-            filteredMovies: [],
             selectedGenre: 'all',
             sortBy: 'release_date',
             search: '',
@@ -40,7 +39,6 @@ describe('test the reducer and actions', () => {
         })).toEqual({
             selectedMovie: { ...mapMovie(getEmptyMovie()), release_date: '2018-02-18' },
             movies: [],
-            filteredMovies: [],
             selectedGenre: 'all',
             sortBy: 'release_date',
             sortOrder: 'desc',
@@ -63,8 +61,9 @@ describe('test the reducer and actions', () => {
             movies: [{}, {}]
         }))
             .toEqual({
-                ...initialState, selectedGenre: 'Comedy',
-                movies: [{}, {}], filteredMovies: [{}, {}]
+                ...initialState,
+                selectedGenre: 'Comedy',
+                movies: [{}, {}]
             });
     });
 
@@ -76,8 +75,10 @@ describe('test the reducer and actions', () => {
             movies: [{}]
         }))
             .toEqual({
-                ...initialState, sortBy: 'title', sortOrder: 'asc',
-                movies: [{}], filteredMovies: [{}]
+                ...initialState,
+                sortBy: 'title',
+                sortOrder: 'asc',
+                movies: [{}]
             });
     });
 
@@ -88,8 +89,9 @@ describe('test the reducer and actions', () => {
             movies: [{}]
         }))
             .toEqual({
-                ...initialState, search: 'star wars',
-                movies: [{}], filteredMovies: [{}]
+                ...initialState,
+                search: 'star wars',
+                movies: [{}]
             });
     });
 
@@ -99,7 +101,7 @@ describe('test the reducer and actions', () => {
             movies: [{}, {}]
         }))
             .toEqual({
-                ...initialState, movies: [{}, {}], filteredMovies: [{}, {}]
+                ...initialState, movies: [{}, {}]
             });
     });
 

@@ -4,7 +4,6 @@ import { mapMovie } from '../../mapper/movieMapper';
 export const initialState = {
     selectedMovie: null,
     movies: [],
-    filteredMovies: [],
     selectedGenre: window.location.search.includes('selectedGenre') ?
         new URLSearchParams(window.location.search).get('selectedGenre') : 'all',
     sortBy: 'release_date',
@@ -12,11 +11,15 @@ export const initialState = {
     search: window.location.search.includes('title') ? new URLSearchParams(window.location.search).get('title') : '',
     isAddModalOpen: false,
     editableMovie: null,
-    lang: 'en'
+    lang: sessionStorage.getItem('lang') || 'en',
+    limit: 10,
+    totalAmount: 0,
+    offset: 0,
+    page: 0
 };
 
 const reducer = (state = initialState, action) => {
-    const newState = { ...state };
+    let newState = { ...state };
 
     switch (action.type) {
         case actionTypes.SELECT_MOVIE:
@@ -27,26 +30,26 @@ const reducer = (state = initialState, action) => {
             break;
         case actionTypes.GENRE_FILTER:
             newState.selectedGenre = action.selectedGenre;
-            newState.movies = action.movies;
-            newState.filteredMovies = [...action.movies];
+            newState.page = 0;
+            newState.offset = 0;
             break;
         case actionTypes.SORT:
             newState.sortBy = action.sortBy;
             newState.sortOrder = action.sortOrder;
-            newState.movies = action.movies;
-            newState.filteredMovies = [...action.movies];
+            newState.page = 0;
+            newState.offset = 0;
             break;
         case actionTypes.SEARCH:
             newState.search = action.search;
-            newState.movies = action.movies;
-            newState.filteredMovies = [...action.movies];
+            newState.page = 0;
+            newState.offset = 0;
             break;
         case actionTypes.GET:
             newState.movies = action.movies;
-            newState.filteredMovies = [...action.movies];
             newState.search = window.location.search ? new URLSearchParams(window.location.search).get('title') : '';
             newState.selectedGenre = window.location.search.includes('selectedGenre') ?
                 new URLSearchParams(window.location.search).get('selectedGenre') : 'all';
+            newState.totalAmount = action.totalAmount;
             break;
         case actionTypes.MODAL:
             newState.editableMovie = action.value ? action.movie : null;
@@ -54,6 +57,19 @@ const reducer = (state = initialState, action) => {
             break;
         case actionTypes.LANG:
             newState.lang = action.lang;
+            sessionStorage.setItem('lang', action.lang);
+            break;
+        case actionTypes.LIMIT:
+            newState.limit = action.limit;
+            newState.page = 0;
+            newState.offset = 0;
+            break;
+        case actionTypes.PAGE:
+            newState.page = action.page;
+            newState.offset = action.page * newState.limit;
+            break;
+        case actionTypes.DEFAULT:
+            newState = { ...initialState, search: '' };
             break;
         default: break;
     }
