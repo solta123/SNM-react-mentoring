@@ -6,13 +6,14 @@ import { useTranslation } from "react-i18next";
 const NotFound = () => {
     // eslint-disable-next-line no-unused-vars
     const { t, i18n } = useTranslation('common');
+    const tSource = 'NETFLIXROULETTE.NOT_FOUND.';
 
     return (
         <div className="text-center">
-            <h2>{t('page_not_found')}</h2>
+            <h2>{t(tSource + 'PAGE_NOT_FOUND')}</h2>
             <NavLink to="/">
                 <Button variant="outlined" color="primary">
-                    {t('back_to_home_screen')}
+                    {t(tSource + 'BACK_TO_HOME_SCREEN')}
                 </Button>
             </NavLink>
         </div>

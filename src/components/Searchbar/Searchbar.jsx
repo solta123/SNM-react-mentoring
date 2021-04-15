@@ -1,4 +1,4 @@
-import './Searchbar.css';
+import './SearchBar.css';
 import React from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { connect } from 'react-redux';
@@ -7,10 +7,11 @@ import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
 import { withTranslation } from "react-i18next";
 
-const Searchbar = props => {
+const SearchBar = props => {
     const history = useHistory();
     // eslint-disable-next-line react/prop-types
     const { t } = props;
+    const tSource = 'NETFLIXROULETTE.SEARCHBAR.';
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -28,17 +29,17 @@ const Searchbar = props => {
     }
 
     return (
-        <div className="SearchbarDiv">
+        <div className="SearchBarDiv">
             <form className="form" onSubmit={handleSubmit}>
-                <TextField variant="outlined" id="search" name="search" type="text" label={t('search')} defaultValue={props.search} />
+                <TextField variant="outlined" id="search" name="search" type="text" label={t(tSource + 'SEARCH')} defaultValue={props.search} />
                 <Button className="searchButton" color="primary" variant="contained"
-                    type="submit">{t('search')}</Button>
+                    type="submit">{t(tSource + 'SEARCH')}</Button>
             </form>
         </div>
     );
 }
 
-Searchbar.propTypes = {
+SearchBar.propTypes = {
     onSearch: PropTypes.func,
     search: PropTypes.string
 }
@@ -55,4 +56,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withTranslation('common')(Searchbar));
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation('common')(SearchBar));

@@ -8,8 +8,7 @@ import validate from "./validate";
 import renderer from 'react-test-renderer';
 import { I18nextProvider } from "react-i18next";
 import i18next from "i18next";
-import common_hu from "../../translations/hu/common.json";
-import common_en from "../../translations/en/common.json";
+import initTranslations from '../../translations/initTranslations';
 
 const testMovie = {
     title: 'title1',
@@ -34,18 +33,7 @@ describe("AddMovieModal test", () => {
         );
         ref = React.createRef();
 
-        i18next.init({
-            interpolation: { escapeValue: false },
-            lng: 'en',
-            resources: {
-                en: {
-                    common: common_en
-                },
-                hu: {
-                    common: common_hu
-                },
-            },
-        });
+        initTranslations();
 
         wrapper = mount(
             <Suspense fallback="loading">
@@ -107,7 +95,7 @@ describe("AddMovieModal test", () => {
         expect(component.find('input#release_date').html()).toContain('value="2000-01-01"');
         expect(component.find('textarea#overview').html()).toContain('asd');
         expect(component.find('input#runtime').html()).toContain('value="90"');
-        expect(component.find('div#genres').html()).toContain('Action');
+        expect(component.find('div#genres').html()).toContain('NETFLIXROULETTE.GENRES.ACTION');
         component.unmount();
     });
 
@@ -119,21 +107,21 @@ describe("AddMovieModal test", () => {
     it('should validate the form and set errors', () => {
         const errors = validate({ genres: [] }, true);
         expect(errors).toEqual({
-            title: 'error_title',
-            release_date: 'error_release_date',
-            poster_path: 'error_poster_path',
-            genres: 'error_genre',
-            overview: 'error_overview',
-            runtime: 'error_runtime'
+            title: 'ERROR_TITLE',
+            release_date: 'ERROR_RELEASE_DATE',
+            poster_path: 'ERROR_POSTER_PATH',
+            genres: 'ERROR_GENRE',
+            overview: 'ERROR_OVERVIEW',
+            runtime: 'ERROR_RUNTIME'
         });
         const errors2 = validate({ genres: [], runtime: -2 }, true);
         expect(errors2).toEqual({
-            title: 'error_title',
-            release_date: 'error_release_date',
-            poster_path: 'error_poster_path',
-            genres: 'error_genre',
-            overview: 'error_overview',
-            runtime: 'error_runtime'
+            title: 'ERROR_TITLE',
+            release_date: 'ERROR_RELEASE_DATE',
+            poster_path: 'ERROR_POSTER_PATH',
+            genres: 'ERROR_GENRE',
+            overview: 'ERROR_OVERVIEW',
+            runtime: 'ERROR_RUNTIME'
         });
     });
 

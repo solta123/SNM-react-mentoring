@@ -28,7 +28,7 @@ describe('Home', () => {
             </MemoryRouter>
         );
 
-        expect(wrapper.find('div.SearchbarDiv').exists()).toBeTruthy();
+        expect(wrapper.find('div.SearchBarDiv').exists()).toBeTruthy();
     });
 
     it('should render movie details', () => {

@@ -8,12 +8,15 @@ import { useTranslation } from "react-i18next";
 const DeleteConfirmModal = React.forwardRef((props, ref) => {
     // eslint-disable-next-line no-unused-vars
     const { t, i18n } = useTranslation('common');
+    const tSource = 'NETFLIXROULETTE.DELETE_CONFIRM_MODAL.';
 
     return <Card className="ModalContainerCard" ref={ref}>
         <CloseIcon className="DeleteConfirmCloseIcon" onClick={props.onClose} />
-        <Typography variant="h4">{t('delete_type', { type: t(props.type + '_with_object_affix') })}</Typography>
-        <Typography className="DeleteConfirmText">{t('are_you_sure_to_delete', { type: t(props.type + '_with_object_affix') })}: {props.itemName}?</Typography>
-        <Button variant="contained" color="primary" className="ConfirmButton" onClick={props.onConfirm}>{t('confirm')}</Button>
+        <Typography variant="h4">{t(tSource + 'DELETE_TYPE', { type: t(tSource + props.type.toUpperCase() + '_WITH_OBJECT_AFFIX') })}</Typography>
+        <Typography className="DeleteConfirmText">
+            {t(tSource + 'ARE_YOU_SURE_TO_DELETE', { type: t(tSource + props.type.toUpperCase() + '_WITH_OBJECT_AFFIX') })}: {props.itemName}?
+        </Typography>
+        <Button variant="contained" color="primary" className="ConfirmButton" onClick={props.onConfirm}>{t(tSource + 'CONFIRM')}</Button>
     </Card>
 });
 

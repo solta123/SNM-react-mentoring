@@ -20,6 +20,7 @@ const FilterMovies = props => {
     const history = useHistory();
     // eslint-disable-next-line no-unused-vars
     const { t, i18n } = useTranslation('common');
+    const tSource = 'NETFLIXROULETTE.FILTER_MOVIES.';
 
     const handleChange = (event, newValue) => {
         history.push({
@@ -43,20 +44,20 @@ const FilterMovies = props => {
             <Toolbar>
                 <Tabs value={props.selectedGenre} onChange={handleChange} indicatorColor="primary"
                     textColor="primary" variant="scrollable" scrollButtons="auto">
-                    <Tab label={t('all')} value="all" id="all" />
+                    <Tab label={t('NETFLIXROULETTE.GENRES.ALL')} value="all" id="all" />
                     {genres.map(genre => {
-                        return <Tab key={genre} label={t(genre)} value={genre} id={genre} />
+                        return <Tab key={genre} label={t('NETFLIXROULETTE.GENRES.' + genre.toUpperCase())} value={genre} id={genre} />
                     })}
                 </Tabs>
                 <Divider orientation="vertical" flexItem id="Divider" />
                 <FormControl ref={wrapper} id="SortButton">
-                    <InputLabel id="sort-by">{t('sort_by')}</InputLabel>
+                    <InputLabel id="sort-by">{t(tSource + 'SORT_BY')}</InputLabel>
                     <Select labelId="sort-by" id="sort-by-select" value={props.sortBy + '_' + props.sortOrder}
                         onChange={handleSortChange}>
-                        <MenuItem id="release_date_asc" value={'release_date_asc'}>{t('release_date_asc')}</MenuItem>
-                        <MenuItem id="release_date_desc" value={'release_date_desc'}>{t('release_date_desc')}</MenuItem>
-                        <MenuItem id="title_asc" value={'title_asc'}>{t('title_asc')}</MenuItem>
-                        <MenuItem id="title_desc" value={'title_desc'}>{t('title_desc')}</MenuItem>
+                        <MenuItem id="release_date_asc" value={'release_date_asc'}>{t(tSource + 'RELEASE_DATE_ASC')}</MenuItem>
+                        <MenuItem id="release_date_desc" value={'release_date_desc'}>{t(tSource + 'RELEASE_DATE_DESC')}</MenuItem>
+                        <MenuItem id="title_asc" value={'title_asc'}>{t(tSource + 'TITLE_ASC')}</MenuItem>
+                        <MenuItem id="title_desc" value={'title_desc'}>{t(tSource + 'TITLE_DESC')}</MenuItem>
                     </Select>
                 </FormControl>
             </Toolbar>

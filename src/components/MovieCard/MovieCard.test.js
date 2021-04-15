@@ -25,7 +25,7 @@ describe('MovieCard', () => {
             title: 'title',
             id: 'movieid',
             release_date: '2005-02-12',
-            genres: ['Action', 'Sci-fi']
+            genres: ['Action', 'Science fiction']
         };
 
         wrapper = mount(
@@ -37,7 +37,8 @@ describe('MovieCard', () => {
         );
 
         expect(wrapper.find('img.media').html().includes('no-image.png')).toBeTruthy();
-        expect(wrapper.find('p.MovieCardDetailsGenres').text()).toBe('Action, Sci-fi');
+        expect(wrapper.find('p.MovieCardDetailsGenres').text())
+            .toBe('NETFLIXROULETTE.GENRES.ACTION, NETFLIXROULETTE.GENRES.SCIENCE FICTION');
         expect(wrapper.find('h4.MovieCardDetailsTitle').text()).toBe('title');
         expect(wrapper.find('div.year').text()).toBe('2005');
     });

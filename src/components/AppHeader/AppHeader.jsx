@@ -16,7 +16,8 @@ import PropTypes from 'prop-types';
 import { useTranslation } from "react-i18next";
 
 const AppHeader = props => {
-  const { t, i18n } = useTranslation('common');
+    const { t, i18n } = useTranslation('common');
+    const tSource = 'NETFLIXROULETTE.APP_HEADER.';
 
   const handleLangChange = event => {
     i18n.changeLanguage(event.target.value);
@@ -33,7 +34,7 @@ const AppHeader = props => {
             </Typography>
           </NavLink>
           <Button id="AddMovieButton" color="inherit" variant="outlined" onClick={() => props.handleModal(true)}>
-            <AddIcon></AddIcon>{t('add_movie')}
+            <AddIcon></AddIcon>{t(tSource + 'ADD_MOVIE')}
           </Button>
           <FormControl id="lang-button">
             <Select id="lang-select" value={props.lang} onChange={handleLangChange}>

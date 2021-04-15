@@ -8,23 +8,11 @@ import Home from './components/Home/Home';
 import { withStore } from './components/store/withStoreHoc';
 import { I18nextProvider } from "react-i18next";
 import i18next from "i18next";
-import common_hu from "./translations/hu/common.json";
-import common_en from "./translations/en/common.json";
-
-i18next.init({
-  interpolation: { escapeValue: false },
-  lng: sessionStorage.getItem('lang') || 'en',
-  resources: {
-    en: {
-      common: common_en
-    },
-    hu: {
-      common: common_hu
-    },
-  },
-});
+import initTranslations from './translations/initTranslations';
 
 const App = () => {
+  initTranslations();
+
   return (
     <ErrorBoundary>
       <BrowserRouter>

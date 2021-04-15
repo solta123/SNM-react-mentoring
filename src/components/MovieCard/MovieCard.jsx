@@ -20,6 +20,7 @@ const MovieCard = (props) => {
   const [deletion, setDeletion] = React.useState(false);
   // eslint-disable-next-line no-unused-vars
   const { t, i18n } = useTranslation('common');
+  const tSource = 'NETFLIXROULETTE.MOVIE_CARD.';
 
   const movieDetail = props.movie;
 
@@ -61,12 +62,12 @@ const MovieCard = (props) => {
           <MoreVertIcon />
         </IconButton>
         <Menu anchorEl={menu} open={!!menu} onClose={() => setMenu(null)}>
-          <MenuItem onClick={handleOpenEditModal}>{t('edit')}</MenuItem>
-          <MenuItem onClick={handleOpenDeletionModal}>{t('delete')}</MenuItem>
+          <MenuItem onClick={handleOpenEditModal}>{t(tSource + 'EDIT')}</MenuItem>
+          <MenuItem onClick={handleOpenDeletionModal}>{t(tSource + 'DELETE')}</MenuItem>
         </Menu>
       </div>
       <NavLink to={'/film/' + movieDetail.id}>
-      <Card className="MovieCardRoot" onClick={() => onMovieClicked(movieDetail.id)}>
+        <Card className="MovieCardRoot" onClick={() => onMovieClicked(movieDetail.id)}>
           <div>
             <img className="media" src={movieDetail.poster_path ? movieDetail.poster_path : noImage} alt={movieDetail.title}
               onError={e => onImageLoadError(e)} />
@@ -80,9 +81,9 @@ const MovieCard = (props) => {
             <Typography variant="body2" color="textSecondary" component="p" className="MovieCardDetailsGenres">
               {movieDetail.genres.map((genre, i) => {
                 if (i >= movieDetail.genres.length - 1) {
-                  return <span key={genre}>{t(genre)}</span>
+                  return <span key={genre}>{t('NETFLIXROULETTE.GENRES.' + genre.toUpperCase())}</span>
                 }
-                return <span key={genre}>{t(genre)}, </span>
+                return <span key={genre}>{t('NETFLIXROULETTE.GENRES.' + genre.toUpperCase())}, </span>
               })}
             </Typography>
             <Paper variant="outlined" className="year" color="textSecondary">{movieDetail.release_date.substring(0, 4)}</Paper>

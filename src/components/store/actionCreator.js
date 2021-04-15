@@ -100,7 +100,7 @@ export const search = text => {
     };
 }
 
-export const changelimit = limit => {
+export const changeLimit = limit => {
     return dispatch => {
         dispatch(async () => {
             const movies = await query({ ...store.getState().movie, limit, offset: 0, page: 1 });

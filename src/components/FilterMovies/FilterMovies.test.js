@@ -6,9 +6,8 @@ import { mount } from "enzyme";
 import thunk from 'redux-thunk';
 import movieReducer from '../store/reducers/movie';
 import { I18nextProvider } from "react-i18next";
-import i18n from "i18next";
-import common_hu from "../../translations/hu/common.json";
-import common_en from "../../translations/en/common.json";
+import i18next from "i18next";
+import initTranslations from '../../translations/initTranslations';
 
 describe('FilterMovies', () => {
     let store;
@@ -22,18 +21,7 @@ describe('FilterMovies', () => {
             applyMiddleware(thunk)
         );
 
-        i18n.init({
-            interpolation: { escapeValue: false },
-            lng: 'en',
-            resources: {
-                en: {
-                    common: common_en
-                },
-                hu: {
-                    common: common_hu
-                },
-            },
-        });
+        initTranslations();
 
         const properties = {
             sortBy: 'release_date',
@@ -43,7 +31,7 @@ describe('FilterMovies', () => {
             onSortSelect: () => store.dispatch({ type: 'SORT', sortBy: 'title', sortOrder: 'asc', movies: [] })
         };
         wrapper = mount(
-            <I18nextProvider i18n={i18n}>
+            <I18nextProvider i18n={i18next}>
                 <Provider store={store} >
                     <FilterMovies {...properties} />
                 </Provider>

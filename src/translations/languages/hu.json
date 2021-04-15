@@ -1,0 +1,76 @@
+{
+    "NETFLIXROULETTE": {
+        "GENRES": {
+            "ALL": "Minden",
+            "DOCUMENTARY": "Dokumentum",
+            "COMEDY": "Vígjáték",
+            "HORROR": "Horror",
+            "CRIME": "Krimi",
+            "ACTION": "Akció",
+            "ADVENTURE": "Kaland",
+            "DRAMA": "Dráma",
+            "SCIENCE FICTION": "Fantasztikus",
+            "ROMANCE": "Romantikus",
+            "FANTASY": "Fantasy",
+            "FAMILY": "Családi",
+            "ANIMATION": "Animáció",
+            "THRILLER": "Thriller",
+            "MYSTERY": "Misztikus",
+            "HISTORY": "Történelmi",
+            "WESTERN": "Western",
+            "MUSIC": "Musical"
+        },
+        "FILTER_MOVIES": {
+            "RELEASE_DATE_ASC": "Premier dátum növ",
+            "RELEASE_DATE_DESC": "Premier dátum csök",
+            "TITLE_ASC": "Cím növ",
+            "TITLE_DESC": "Cím csök",
+            "SORT_BY": "Rendezés"
+        },
+        "ADD_MOVIE_MODAL": {
+            "ADD_MOVIE": "Film hozzáadása",
+            "EDIT_MOVIE": "Film hozzáadása",
+            "TITLE": "Cím",
+            "RELEASE_DATE": "Premier dátum",
+            "POSTER_PATH": "Poszter URL",
+            "GENRES": "Műfajok",
+            "OVERVIEW": "Leírás",
+            "RUNTIME": "Játékidő",
+            "SUBMIT": "Küldés",
+            "RESET": "Újra",
+            "ERROR_TITLE": "Cím megadása kötelező",
+            "ERROR_RELEASE_DATE": "Premier dátum megadása kötelező",
+            "ERROR_POSTER_PATH": "Poszter URL megadása kötelező",
+            "ERROR_GENRE": "Adjon meg legalább egy műfajt",
+            "ERROR_OVERVIEW": "Leírás megadása kötelező",
+            "ERROR_RUNTIME": "Hmm, nem rövid ez?"
+        },
+        "APP_HEADER": {
+            "ADD_MOVIE": "Új film"
+        },
+        "DELETE_CONFIRM_MODAL": {
+            "DELETE_TYPE": "Törli ezt a(z) {{type}}",
+            "ARE_YOU_SURE_TO_DELETE": "Biztosan törli ezt a(z) {{type}}",
+            "MOVIE_WITH_OBJECT_AFFIX": "filmet",
+            "CONFIRM": "Megerősítés"
+        },
+        "MOVIE_CARD": {
+            "EDIT": "Szerkesztés",
+            "DELETE": "Törlés"
+        },
+        "MOVIES_LIST": {
+            "NO_MOVIES": "Nincs találat",
+            "MOVIES_PER_PAGE": "Filmek oldalanként"
+        },
+        "NOT_FOUND": {
+            "PAGE_NOT_FOUND": "Nem találjuk az oldalt",
+            "BACK_TO_HOME_SCREEN": "Vissza a főoldalra"
+        },
+        "SEARCHBAR": {
+            "SEARCH": "Keresés"
+        },
+        "MOVIE_DETAIL": {
+            "MIN": "perc"
+        }
+    }
+}

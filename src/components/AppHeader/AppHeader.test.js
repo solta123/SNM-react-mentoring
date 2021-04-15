@@ -8,9 +8,8 @@ import i18next from "i18next";
 import { createStore, combineReducers } from 'redux';
 import { mount } from "enzyme";
 import movieReducer from '../store/reducers/movie';
-import common_hu from "../../translations/hu/common.json";
-import common_en from "../../translations/en/common.json";
 import { act } from 'react-dom/test-utils';
+import initTranslations from '../../translations/initTranslations';
 
 describe('AppHeader', () => {
     let wrapper;
@@ -23,18 +22,7 @@ describe('AppHeader', () => {
             })
         );
 
-        i18next.init({
-            interpolation: { escapeValue: false },
-            lng: 'en',
-            resources: {
-                en: {
-                    common: common_en
-                },
-                hu: {
-                    common: common_hu
-                },
-            },
-        });
+        initTranslations();
 
         act(() => {
             wrapper = mount(

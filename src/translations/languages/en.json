@@ -1,0 +1,76 @@
+{
+    "NETFLIXROULETTE": {
+        "GENRES": {
+            "ALL": "All",
+            "DOCUMENTARY": "Documentary",
+            "COMEDY": "Comedy",
+            "HORROR": "Horror",
+            "CRIME": "Crime",
+            "ACTION": "Action",
+            "ADVENTURE": "Adventure",
+            "DRAMA": "Drama",
+            "SCIENCE FICTION": "Science Fiction",
+            "ROMANCE": "Romance",
+            "FANTASY": "Fantasy",
+            "FAMILY": "Family",
+            "ANIMATION": "Animation",
+            "THRILLER": "Thriller",
+            "MYSTERY": "Mystery",
+            "HISTORY": "History",
+            "WESTERN": "Western",
+            "MUSIC": "Music"
+        },
+        "FILTER_MOVIES": {
+            "RELEASE_DATE_ASC": "Release date asc",
+            "RELEASE_DATE_DESC": "Release date desc",
+            "TITLE_ASC": "Title asc",
+            "TITLE_DESC": "Title desc",
+            "SORT_BY": "Sort by"
+        },
+        "ADD_MOVIE_MODAL": {
+            "ADD_MOVIE": "Add movie",
+            "EDIT_MOVIE": "Edit movie",
+            "TITLE": "Title",
+            "RELEASE_DATE": "Release date",
+            "POSTER_PATH": "Movie URL",
+            "GENRES": "Genres",
+            "OVERVIEW": "Overview",
+            "RUNTIME": "Runtime",
+            "SUBMIT": "Submit",
+            "RESET": "Reset",
+            "ERROR_TITLE": "Required title",
+            "ERROR_RELEASE_DATE": "Required release date",
+            "ERROR_POSTER_PATH": "Required to add a link to an image",
+            "ERROR_GENRE": "Please add at least one genre",
+            "ERROR_OVERVIEW": "Required overview",
+            "ERROR_RUNTIME": "Hmm, this seems a little short..."
+        },
+        "APP_HEADER": {
+            "ADD_MOVIE": "Add movie"
+        },
+        "DELETE_CONFIRM_MODAL": {
+            "DELETE_TYPE": "Delete {{type}}",
+            "ARE_YOU_SURE_TO_DELETE": "Are you sure you want to delete this {{type}}",
+            "MOVIE_WITH_OBJECT_AFFIX": "movie",
+            "CONFIRM": "Confirm"
+        },
+        "MOVIE_CARD": {
+            "EDIT": "Edit",
+            "DELETE": "Delete"
+        },
+        "MOVIES_LIST": {
+            "NO_MOVIES": "No movies",
+            "MOVIES_PER_PAGE": "Movies per page"
+        },
+        "NOT_FOUND": {
+            "PAGE_NOT_FOUND": "Page not found",
+            "BACK_TO_HOME_SCREEN": "Back to home screen"
+        },
+        "SEARCHBAR": {
+            "SEARCH": "Search"
+        },
+        "MOVIE_DETAIL": {
+            "MIN": "min"
+        }
+    }
+}

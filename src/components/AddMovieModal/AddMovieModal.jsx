@@ -22,6 +22,7 @@ const AddMovieModal = React.forwardRef((props, ref) => {
     const [submitted, setSubmitted] = useState(false);
     // eslint-disable-next-line no-unused-vars
     const { t, i18n } = useTranslation('common');
+    const tSource = 'NETFLIXROULETTE.ADD_MOVIE_MODAL.';
 
     const formik = useFormik({
         initialValues: {
@@ -37,65 +38,78 @@ const AddMovieModal = React.forwardRef((props, ref) => {
         <div>
             <CloseIcon onClick={props.onCloseModal} className="closeIcon" />
             <Typography variant="h5">
-                {props.movieDetail ? <span>{t('edit_movie')}</span> : <span>{t('add_movie')}</span>}
+                {props.movieDetail ? <span>{t(tSource + 'EDIT_MOVIE')}</span> : <span>{t(tSource + 'ADD_MOVIE')}</span>}
             </Typography>
         </div>
 
         <form onSubmit={formik.handleSubmit} className="AddMovieForm">
             <div>
-                <TextField id="title" name="title" type="text" label={t('title')}
+                <TextField id="title" name="title" type="text" label={t(tSource + 'TITLE')}
                     onChange={formik.handleChange} value={formik.values.title} />
             </div>
-            {formik.errors.title ? <div id="title-error" className="error">{t(formik.errors.title)}</div> : null}
+            {formik.errors.title ? <div id="title-error" className="error">{t(tSource + formik.errors.title)}</div> : null}
 
             <div>
-                <TextField label={t('release_date')} InputLabelProps={{ shrink: true }} id="release_date"
+                <TextField label={t(tSource + 'RELEASE_DATE')} InputLabelProps={{ shrink: true }} id="release_date"
                     name="release_date" type="date" onChange={formik.handleChange} value={formik.values.release_date} />
             </div>
-            {formik.errors.release_date ? <div id="release_date-error" className="error">{t(formik.errors.release_date)}</div> : null}
+            {formik.errors.release_date ? <div id="release_date-error" className="error">{t(tSource + formik.errors.release_date)}</div> : null}
 
             <div>
-                <TextField label={t('poster_path')} id="poster_path" name="poster_path" type="text"
+                <TextField label={t(tSource + 'POSTER_PATH')} id="poster_path" name="poster_path" type="text"
                     onChange={formik.handleChange} value={formik.values.poster_path}
                 />
             </div>
-            {formik.errors.poster_path ? <div id="poster_path-error" className="error">{t(formik.errors.poster_path)}</div> : null}
+            {formik.errors.poster_path ? <div id="poster_path-error" className="error">{t(tSource + formik.errors.poster_path)}</div> : null}
 
             <div>
                 <FormControl>
-                    <InputLabel>{t('genres')}</InputLabel>
+                    <InputLabel>{t(tSource + 'GENRES')}</InputLabel>
                     <Select id="genres" name="genres" value={formik.values.genres} onChange={formik.handleChange} multiple>
                         {genres.map(genreItem => (
-                            <MenuItem id={genreItem} key={genreItem} value={genreItem}>{t(genreItem)}</MenuItem>
+                            <MenuItem id={genreItem} key={genreItem} value={genreItem}>{t('NETFLIXROULETTE.GENRES.' + genreItem.toUpperCase())}</MenuItem>
                         ))}
                     </Select>
                 </FormControl>
             </div>
-            {formik.errors.genres ? <div id="genres-error" className="error">{t(formik.errors.genres)}</div> : null}
+            {formik.errors.genres ? <div id="genres-error" className="error">{t(tSource + formik.errors.genres)}</div> : null}
 
             <div>
-                <TextField label={t('overview')} id="overview" name="overview" type="text"
+                <TextField label={t(tSource + 'OVERVIEW')} id="overview" name="overview" type="text"
                     multiline rows={3} rowsMax={10} onChange={formik.handleChange} value={formik.values.overview} />
             </div>
-            {formik.errors.overview ? <div id="overview-error" className="error">{t(formik.errors.overview)}</div> : null}
+            {formik.errors.overview ? <div id="overview-error" className="error">{t(tSource + formik.errors.overview)}</div> : null}
 
             <div>
-                <TextField label={t('runtime')} id="runtime" name="runtime" type="number"
+                <TextField label={t(tSource + 'RUNTIME')} id="runtime" name="runtime" type="number"
                     onChange={formik.handleChange} value={formik.values.runtime} />
             </div>
-            {formik.errors.runtime ? <div id="runtime-error" className="error">{t(formik.errors.runtime)}</div> : null}
+            {formik.errors.runtime ? <div id="runtime-error" className="error">{t(tSource + formik.errors.runtime)}</div> : null}
 
             <div>
                 <Button variant="contained" color="primary" className="AddMovieFormButtons" type="submit"
-                    id="AddMovieSubmit" onClick={() => setSubmitted(true)}>{t('submit')}</Button>
-                <Button variant="contained" className="AddMovieFormButtons">{t('reset')}</Button>
+                    id="AddMovieSubmit" onClick={() => setSubmitted(true)}>{t(tSource + 'SUBMIT')}</Button>
+                <Button variant="contained" className="AddMovieFormButtons">{t(tSource + 'RESET')}</Button>
             </div>
         </form>
     </Paper>
 });
 
 AddMovieModal.propTypes = {
-    movieDetail: PropTypes.string,
+    movieDetail: PropTypes.shape({
+        id: PropTypes.number,
+        title: PropTypes.string,
+        release_date: PropTypes.string,
+        poster_path: PropTypes.string,
+        genres: PropTypes.array,
+        overview: PropTypes.string,
+        runtime: PropTypes.string,
+        tagline: PropTypes.string,
+        budget: PropTypes.number,
+        revenue: PropTypes.number,
+        vote_average: PropTypes.number,
+        vote_count: PropTypes.number
+    }),
     onEdit: PropTypes.func,
     onAdd: PropTypes.func,
     onCloseModal: PropTypes.func

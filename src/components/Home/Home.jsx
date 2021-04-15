@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AppHeader from '../AppHeader/AppHeader';
-import Searchbar from '../Searchbar/Searchbar';
+import SearchBar from '../SearchBar/SearchBar';
 import MovieDetail from '../MovieDetail/MovieDetail';
 import { connect } from 'react-redux';
 import { getMovies } from '../store/actionCreator';
@@ -24,7 +24,7 @@ const Home = props => {
 
                 <Switch>
                     <Route path="/film/:id" component={MovieDetail} />
-                    <Route component={Searchbar} />
+                    <Route component={SearchBar} />
                 </Switch>
                 <Route component={MoviesList} />
             </div>

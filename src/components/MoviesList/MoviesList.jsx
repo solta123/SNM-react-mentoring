@@ -6,14 +6,14 @@ import './MoviesList.css';
 import PropTypes from 'prop-types';
 import { useTranslation } from "react-i18next";
 import TablePagination from '@material-ui/core/TablePagination';
-import { changelimit, changePage } from '../store/actionCreator';
+import { changeLimit, changePage } from '../store/actionCreator';
 
 const MoviesList = props => {
     // eslint-disable-next-line no-unused-vars
     const { t, i18n } = useTranslation('common');
+    const tSource = 'NETFLIXROULETTE.MOVIES_LIST.';
 
     const handlePageChange = (event, newPage) => {
-        console.log(newPage)
         props.handlePageChange(newPage);
     }
 
@@ -24,7 +24,7 @@ const MoviesList = props => {
                 {props.movies?.length ?
                     props.movies.map(movie => {
                         return <MovieCard key={movie.id} movie={movie} />
-                    }) : <i className="text-center max-width">{t('no_movies')}</i>
+                    }) : <i className="text-center max-width">{t(tSource + 'NO_MOVIES')}</i>
                 }
             </div>
             <TablePagination
@@ -34,7 +34,7 @@ const MoviesList = props => {
                 onChangePage={handlePageChange}
                 rowsPerPage={props.limit}
                 onChangeRowsPerPage={event => props.handleLimitChange(event.target.value)}
-                labelRowsPerPage="Movies per page:"
+                labelRowsPerPage={t(tSource + 'MOVIES_PER_PAGE') + ':'}
             />
         </div>
     );
@@ -62,7 +62,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        handleLimitChange: limit => dispatch(changelimit(limit)),
+        handleLimitChange: limit => dispatch(changeLimit(limit)),
         handlePageChange: page => dispatch(changePage(page))
     }
 }

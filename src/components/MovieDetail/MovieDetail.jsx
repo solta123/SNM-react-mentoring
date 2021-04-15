@@ -13,6 +13,7 @@ const MovieDetail = props => {
     const history = useHistory();
     // eslint-disable-next-line no-unused-vars
     const { t, i18n } = useTranslation('common');
+    const tSource = 'NETFLIXROULETTE.MOVIE_DETAIL.'; 
 
     useEffect(() => {
         if (!props.movie) {
@@ -40,12 +41,12 @@ const MovieDetail = props => {
                         <Typography variant="subtitle1">
                             {props.movie.genres.map((genre, i) => {
                                 if (i + 1 < props.movie.genres.length) {
-                                    return t(genre) + ', ';
+                                    return t('NETFLIXROULETTE.GENRES.' + genre.toUpperCase()) + ', ';
                                 }
-                                return t(genre);
+                                return t('NETFLIXROULETTE.GENRES.' + genre.toUpperCase());
                             })}
                         </Typography>
-                        <Typography variant="h5">{props.movie.release_date}, {props.movie.runtime} {t('min')}</Typography>
+                        <Typography variant="h5">{props.movie.release_date}, {props.movie.runtime} {t(tSource +'MIN')}</Typography>
                         <Typography variant="subtitle1">{props.movie.overview}</Typography>
                     </Grid>
                 </Grid>
