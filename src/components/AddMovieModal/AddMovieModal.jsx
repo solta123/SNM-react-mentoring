@@ -26,11 +26,14 @@ const AddMovieModal = React.forwardRef((props, ref) => {
 
     const formik = useFormik({
         initialValues: {
-            ...props.movieDetail ? mapMovie({ ...props.movieDetail }) : getEmptyMovie(),
+            ...props.movieDetail ? mapMovie({ ...props.movieDetail }) : getEmptyMovie()
         },
         validate: values => validate(values, submitted),
         onSubmit: async values => {
             props.movieDetail ? props.onEdit({ ...values, id: props.movieDetail.id }) : props.onAdd(values);
+        },
+        handleReset: () => {
+            formik.setValues(props.movieDetail ? mapMovie({ ...props.movieDetail }) : getEmptyMovie())
         }
     });
 
@@ -89,7 +92,8 @@ const AddMovieModal = React.forwardRef((props, ref) => {
             <div>
                 <Button variant="contained" color="primary" className="AddMovieFormButtons" type="submit"
                     id="AddMovieSubmit" onClick={() => setSubmitted(true)}>{t(tSource + 'SUBMIT')}</Button>
-                <Button variant="contained" className="AddMovieFormButtons">{t(tSource + 'RESET')}</Button>
+                <Button variant="contained" className="AddMovieFormButtons" id="AddMovieReset" onClick={formik.handleReset}>
+                    {t(tSource + 'RESET')}</Button>
             </div>
         </form>
     </Paper>

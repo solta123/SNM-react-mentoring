@@ -136,4 +136,59 @@ describe("AddMovieModal test", () => {
             runtime: ''
         });
     });
+
+    it('should reset add form to empty', () => {
+        wrapper.find('input#title').simulate('keydown', { key: 'a' });
+        wrapper.find('input#poster_path').simulate('keydown', { key: 'a' });
+        wrapper.find('input#release_date')
+            .simulate('keydown', { key: '2' })
+            .simulate('keydown', { key: '0' })
+            .simulate('keydown', { key: '0' })
+            .simulate('keydown', { key: '0' })
+            .simulate('keydown', { key: '-' })
+            .simulate('keydown', { key: '0' })
+            .simulate('keydown', { key: '1' })
+            .simulate('keydown', { key: '-' })
+            .simulate('keydown', { key: '0' })
+            .simulate('keydown', { key: '1' });
+        wrapper.find('input#runtime').simulate('keydown', { key: '9' });
+
+        wrapper.find('button#AddMovieReset').simulate('click');
+        expect(wrapper.find('input#title').html()).toContain('value=""');
+        expect(wrapper.find('input#poster_path').html()).toContain('value=""');
+        expect(wrapper.find('input#runtime').html()).toContain('value="0"');
+        expect(wrapper.find('input#release_date').html()).not.toContain('value="2000-01-01"');
+    });
+
+    it('should reset form when editing', () => {
+        store.getState().movie.editableMovie = { ...testMovie };
+        const component = mount(
+            <Provider store={store}>
+                <AddMovieModal ref={ref} movieDetail={testMovie} />
+            </Provider>
+        );
+
+        component.find('input#title').simulate('keydown', { key: 'a' });
+        component.find('input#poster_path').simulate('keydown', { key: 'a' });
+        component.find('textarea#overview').simulate('keydown', { key: 'a' });
+        component.find('input#release_date')
+            .simulate('keydown', { key: '2' })
+            .simulate('keydown', { key: '0' })
+            .simulate('keydown', { key: '0' })
+            .simulate('keydown', { key: '0' })
+            .simulate('keydown', { key: '-' })
+            .simulate('keydown', { key: '0' })
+            .simulate('keydown', { key: '1' })
+            .simulate('keydown', { key: '-' })
+            .simulate('keydown', { key: '0' })
+            .simulate('keydown', { key: '1' });
+        component.find('input#runtime').simulate('keydown', { key: '9' });
+        component.find('div#genres').simulate('change', { target: { value: ['Action'] } });
+
+        component.find('button#AddMovieReset').simulate('click');
+        expect(component.find('input#title').html()).toContain('value="title1"');
+        expect(component.find('input#poster_path').html()).toContain('value="img"');
+        expect(component.find('input#runtime').html()).toContain('value="90"');
+        expect(component.find('input#release_date').html()).toContain('value="2000-01-01"');
+    });
 });
